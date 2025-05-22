@@ -1,6 +1,6 @@
 # Agent Network System (ANS) Specification
 
-[![Documentation Status](https://img.shields.io/website?url=https%3A%2F%2Fg-clouds.github.io%2Fans%2F&label=docs&style=flat-square)](https://g-clouds.github.io/ans/)
+[![Documentation Status](https://img.shields.io/website?url=https%3A%2F%2Fg-clouds.github.io%2Fans%2F&label=docs&style=flat-square)](https://g-clouds.github.io/ANS/)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/g-clouds/ans?style=flat-square)](https://github.com/g-clouds/ans/releases/latest)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 

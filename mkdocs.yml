@@ -1,0 +1,56 @@
+site_name: Agent Network System (ANS) Specification
+site_url: https://glabs-ans.github.io/ans/ # Important for gh-deploy
+site_description: 'ANS: A Foundational Hybrid Architecture for Secure AI Agent Ecosystems'
+repo_url: https://github.com/glabs-ans
+repo_name: glabs-ans/ans
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand # Expands sections in the nav by default
+    - navigation.top # Back-to-top button
+    - toc.integrate # Integrates the Table of Contents into the left navigation sidebar
+    # - navigation.indexes # If you want section index pages to also show content
+  palette:
+    # Palette toggle for light/dark mode
+    - scheme: default # Light mode
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate # Dark mode
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+
+# Navigation structure (optional for a single page, but good practice)
+# If you have only one main file, it will likely be the homepage.
+nav:
+  - Home: index.md # Or 'ANS Specification: specification.md' if you rename it
+  # - 'Section 2': section2.md # Example for more pages
+
+# Extensions
+markdown_extensions:
+  - pymdownx.highlight: # For code highlighting
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      # make fences behave like GitHub Markdown
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - admonition
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - attr_list
+  - md_in_html
+
+# Optional: Add plugins if needed later
+# plugins:
+#   - search # Built-in search, enabled by default with Material theme

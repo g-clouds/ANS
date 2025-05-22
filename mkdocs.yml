@@ -1,8 +1,8 @@
-site_name: Agent Network System (ANS) Specification
-site_url: https://glabs-ans.github.io/ans/ # Important for gh-deploy
+site_name: Agent Network System (ANS)
+site_url: https://glabs-ans.github.io/ANS/
 site_description: 'ANS: A Foundational Hybrid Architecture for Secure AI Agent Ecosystems'
-repo_url: https://github.com/glabs-ans
-repo_name: glabs-ans/ans
+repo_url: https://github.com/g-clouds/ANS
+repo_name: g-clouds/ANS
 
 theme:
   name: material
@@ -27,10 +27,8 @@ theme:
     text: Roboto
     code: Roboto Mono
 
-# Navigation structure (optional for a single page, but good practice)
-# If you have only one main file, it will likely be the homepage.
 nav:
-  - Home: index.md # Or 'ANS Specification: specification.md' if you rename it
+  - Home: index.md # Main page
   # - 'Section 2': section2.md # Example for more pages
 
 # Extensions

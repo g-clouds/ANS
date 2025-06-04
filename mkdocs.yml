@@ -29,7 +29,7 @@ theme:
 
 nav:
   - Home: index.md # Main page
-  # - 'Section 2': section2.md # Example for more pages
+  - Use Cases: usecases.md
 
 # Extensions
 markdown_extensions:

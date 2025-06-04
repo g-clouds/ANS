@@ -2,7 +2,10 @@
 
 **A Use Case Utilising the Agent Network System (ANS)**
 
+![ANS military](../UseCases/images/ANS-military-1.png){ align=left }
+
 **Abstract:**
+
 The operational efficacy of coordinated AI agent swarms in defence is paramount, whether these agents are embodied in autonomous drones and ground vehicles or exist as sophisticated software entities. This efficacy critically hinges on the secure discovery, verifiable identity and capabilities of individual agents, as well as policy compliant coordinated action.
 
 This article provides a technical examination of the Agent Network System (ANS) v0.1.0 specification, an open standard designed as a foundational infrastructure to address these critical requirements for multi-agent AI systems. We explore its hybrid architecture, core operational mechanisms enabling secure agent swarm formation and tasking, multi-level trust model for individual agent verification, AI Bill of Materials (AIBOM) integration for software agent integrity, and its specific applicability to complex, policy-driven AI agent swarm operations in contested environments.
@@ -19,7 +22,7 @@ Key questions arise:
 
 The Agent Network System (ANS) specification (currently v0.1.0 – Request for Comment) aims to provide this foundational "trust fabric" for such AI agent ecosystems. It is not a replacement for agent-to-agent (A2A) communication protocols but a complementary infrastructure layer that answers the "who is this agent?" and "are they trustworthy and authorised for this interaction?" questions *before* protocol specific communication commences. In this context, each drone, GCS, UAS or other participating system component is considered an **AI agent** registered and verifiable within the ANS.
 
-**2. The ANS Hybrid Architecture: Supporting Scalable and Trustworthy AI Agent Ecosystems (ANS Spec, Sec 3)**
+**2. The ANS Hybrid Architecture: Supporting Scalable and Trustworthy AI Agent Ecosystems ([ANS Spec, Sec 3](../index.md/#3-system-architecture))**
 
 ANS proposes a hybrid, three-layer architecture designed to optimise for both high-performance discovery of AI agents and strong, verifiable trust between them:
 
@@ -30,11 +33,11 @@ ANS proposes a hybrid, three-layer architecture designed to optimise for both hi
 * **2.3 Decentralised Trust Layer:**
   * *Agent Swarm :* The initial registration and capability attestation of each AI agent (e.g., a new type of sensor processing agent or a drone agent) intended for critical multi-agent operations is anchored to a permissioned blockchain, providing an immutable record of its authorised configuration and provenance.
 
-**3. Core ANS Operations: Enabling Secure Dynamics for AI Agent Swarms (ANS Spec, Sec 4)**
+**3. Core ANS Operations: Enabling Secure Dynamics for AI Agent Swarms ([ANS Spec, Sec 4](../index.md/#4-core-operations))**
 
 Within ANS, every participating entity (drone, GCS, UAS) is an agent.
 
-* **Register:** Each AI agent is registered with its unique `agent_id` (e.g., `uas_isr_alpha001.unit_xyz.ans`, `gcs_operator_beta.unit_xyz.ans`, `threat_analysis_engine_gamma.hq.ans`), its `public_key`, its specific `capabilities` (drawn from a **Standardised Capability Taxonomy - Sec 7.3**), and its **AI Bill of Materials (AIBOM - Sec 5.6, Appendix E)**.
+* **Register:** Each AI agent is registered with its unique `agent_id` (e.g., `uas_isr_alpha001.unit_xyz.ans`, `gcs_operator_beta.unit_xyz.ans`, `threat_analysis_engine_gamma.hq.ans`), its `public_key`, its specific `capabilities` (drawn from a **Standardised Capability Taxonomy - [Sec 7.3](../index.md/#73-standardised-capability-taxonomy**), and its **AI Bill of Materials (AIBOM - [Sec 5.6](../index.md/#56-ai-supply-chain-verification), [Appendix E](../index.md/#appendix-e-aibom-format-specification))**.
 * **Lookup:** An AI agent (e.g., a mission planning agent) `lookups` other AI agents (e.g., available ISR ,intelligence, surveillance and reconnaissance, drone agents or data fusion agents) based on required capabilities and trust levels.
 * **Verify:**
   * Before an AI agent (e.g., a GCS agent) issues a critical command to another agent (e.g., an effector drone agent), it `verifies` the target agent's identity, AIBOM integrity (especially for critical software components like targeting or flight control agents), and policy compliance.

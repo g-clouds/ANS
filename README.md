@@ -53,7 +53,10 @@ ANS provides the trust and discovery infrastructure, while specific protocols li
 
 ## Contributing
 
-This ANS specification is currently a **Version 0.1.0 – Request for Comment**. We actively welcome community contributions, feedback, and collaboration from developers, researchers, and organizations working across the AI agent landscape to refine and evolve this foundational standard.
+This ANS specification is currently a **Version [![GitHub release (latest by date)](https://img.shields.io/github/v/release/g-clouds/ans?style=flat-square)](https://github.com/g-clouds/ans/releases/latest) – Request for Comment**. We actively welcome community contributions, feedback, and collaboration from developers, researchers, and organizations working across the AI agent landscape to refine and evolve this foundational standard.
+
+A summary of changes can be found in the [CHANGELOG.md](CHANGELOG.md) file.
+
 
 *   **Questions & Discussions:** Join our [GitHub Discussions](https://github.com/g-clouds/ans/discussions)
 *   **Issues & Feedback:** Report errors, suggest improvements, or propose changes via [GitHub Issues](https://github.com/g-clouds/ans/issues).

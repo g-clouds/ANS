@@ -6,7 +6,6 @@
 
 **gClouds R&D | gLabs**
 
-
 ## Executive Summary
 
 ANS provides a unified framework for AI agents to discover, verify, and connect with each other. This is crucial as agents proliferate across organisations and domains. ANS uses both fast, centralised services (for quick lookups) and a decentralised blockchain layer (for trust and verification).
@@ -68,18 +67,14 @@ While the vision of interconnected AI agents is compelling, current and emerging
 **Emerging Communication Protocols Highlight the Discovery Gap:**
 
 * **A2A (Google):** Google’s A2A protocol defines how agents communicate after discovery, but it does not include a discovery service. Without ANS, A2A-based systems would fall back on manual setup or proprietary directories, which do not scale and create silos.
-
 * **MCP (a protocol for AI models to use external tools):** MCP standardises how AI models use external tools, but it lacks a global registry. As a result, tool discovery often stays within predefined sets or requires custom integrations, limiting flexibility.
-  
 * **IBM Research’s ACP (Agent Communication Protocol)** IBM Research's ACP, aiming to standardise broader agent communication including delegation and orchestration, also presupposes a method for agents to find and verify each other, especially across organisational boundaries. Without a universal discovery and verification layer like ANS, ACP implementations could face challenges in moving beyond platform specific directories or manual setups for establishing trusted interactions.
 
 **Persistent General Limitations:**
+
 * **Centralised Directories (Proprietary or Platform Specific):** Many existing solutions rely on centralised directories, which can become single points of failure, raise concerns about data control and trust in the directory provider, and often create walled gardens that hinder cross-ecosystem interoperability.
-
 * **Manual Configuration:** Relying on developers to manually configure agent endpoints and trust relationships is not scalable for the dynamic and rapidly growing agent ecosystems envisioned. It's error-prone and slow.
-
 * **Ad-hoc Integration:** Custom, one-off integrations between specific agents or platforms lead to fragmented silos, significantly limiting broader interoperability and the network effects of a connected agent economy.
-  
 * **Lack of Standardised, Robust Verification:** Most systems today have no common, secure way to verify an agent’s identity or capabilities. ANS introduces cryptographic and multi level verification to fill this gap.
 
 These limitations underscore the critical need for a foundational infrastructure like the Agent Network System (ANS), designed to provide standardised, secure, and verifiable discovery across diverse agent platforms and protocols.
@@ -112,6 +107,7 @@ For instance, an ANS deployment might use fast cloud servers for lookups, while 
 ANS specifies a multi level approach to trust, allowing implementations to balance performance needs with security requirements for different use cases.
 
 Implementations MUST support multiple verification levels, with progressively stronger security guarantees. This enables agents to:
+
 1. Start with basic verification for non critical interactions
 2. Progress to higher verification levels for more sensitive operations
 3. Adopt blockchain based verification for mission critical applications
@@ -220,12 +216,12 @@ graph TB
     U -->|Verify| RG
     U -->|Policies| RG
 ```
+
 > Figure 1: ANS Three-Layer Architecture (Centralised, Bridge, Decentralised)
 
 Figure 1 illustrates the three layer architecture: a Centralised High Performance Layer for fast queries, a Bridge Layer for synchronization/trust, and a Decentralised Trust Layer for blockchain services.
 
 Users/agents interact with the Registry Gateway in the centralised layer, which communicates through the bridge layer to the blockchain based decentralised layer.
-
 
 ### 3.1 Centralised High Performance Layer
 
@@ -234,6 +230,7 @@ This layer MUST be optimised for speed and scalability, handling the highest vol
 #### 3.1.1 Registry Gateway
 
 The Registry Gateway MUST:
+
 * Serve as the entry point for all ANS operations
 * Implement API endpoints for lookup, registration, verification, and policy management
 * Provide rate limiting and abuse prevention
@@ -243,6 +240,7 @@ The Registry Gateway MUST:
 #### 3.1.2 High Performance Database
 
 The High Performance Database component MUST:
+
 * Store agent records with milliseconds access times
 * Implement horizontal sharding for scalability to billions of records
 * Support replication with regional controls for data residency
@@ -252,6 +250,7 @@ The High Performance Database component MUST:
 #### 3.1.3 Global Cache Layer
 
 The Global Cache Layer MUST:
+
 * Cache frequently accessed agent records for even faster retrieval
 * Be distributed across global regions for minimal latency
 * Implement intelligent invalidation strategies
@@ -261,6 +260,7 @@ The Global Cache Layer MUST:
 #### 3.1.4 Authentication Service
 
 The Authentication Service MUST:
+
 * Verify identity of agents and users accessing the system
 * Issue time-limited access tokens
 * Enforce granular access control policies
@@ -270,6 +270,7 @@ The Authentication Service MUST:
 #### 3.1.5 Monitoring & Metrics System
 
 The Monitoring & Metrics System MUST:
+
 * Provide real-time observability into system health
 * Track performance metrics for operational management
 * Enable automatic circuit breaking for degraded components
@@ -287,16 +288,19 @@ This layer acts as a translator and synchroniser between the fast database and t
 The Synchronisation Engine component MUST maintain consistency between high performance database and blockchain registry. It SHALL handle different update cadences and latency requirements.
 
 Implementations MUST support granular consistency models with per-attribute configuration:
+
 * Strong consistency MUST be used for identity and trust-critical claims
 * Bounded consistency SHOULD be used for capability updates and metadata
 * Eventual consistency MAY be used for non-critical attributes
 
 The Synchronisation Engine MUST provide multiple synchronisation methods:
+
 * Standard synchronisation for efficiency (batch operations)
 * Priority synchronisation for expedited critical operations
 * Emergency synchronisation for immediate security concerns
 
 The Synchronisation Engine MUST:
+
 * Ensure verified records in the database match blockchain state
 * Implement Conflict-Free Replicated Data Types (CRDTs) for appropriate attribute types to minimise conflicts
 * Handle backpressure with robust queuing mechanisms for blockchain congestion
@@ -390,6 +394,7 @@ The Conflict Resolution Module MUST implement hierarchical resolution strategies
 * **Capability updates**: Time-based resolution with configurable thresholds for automatic vs. manual review
 
 Implementations MUST:
+
 * Provide audit trails for all conflict resolutions
 * Support customisable rules for specific deployment needs
 * Automatically escalate critical conflicts to system operators
@@ -425,10 +430,10 @@ ALGORITHM ResolveConflict(newRecord, existingRecord)
         resolution.audit_trail.conflict_type ← "TRUST_CLAIM"
         resolution.audit_trail.resolution_rule_applied ← "BLOCKCHAIN_AUTHORITATIVE"
         resolution.audit_trail.confidence ← 1.0
-      
+    
         // Log critical trust conflict
         LogCriticalConflict("TRUST_REVOCATION_OVERRIDE_ATTEMPT", newRecord, existingRecord)
-      
+    
         RETURN resolution
       END IF
     END IF
@@ -440,12 +445,12 @@ ALGORITHM ResolveConflict(newRecord, existingRecord)
       IF newRecord.source == "HPDB" AND 
          newRecord.availability_status == "TEMPORARILY_UNAVAILABLE" AND
          existingRecord.availability_status == "AVAILABLE" THEN
-       
+     
         resolution.action ← "PROCEED"
         resolution.audit_trail.conflict_type ← "AVAILABILITY_STATUS"
         resolution.audit_trail.resolution_rule_applied ← "HPDB_AUTHORITATIVE_FOR_TEMPORARY"
         resolution.audit_trail.confidence ← 0.9
-      
+    
         RETURN resolution
       END IF
     END IF
@@ -455,7 +460,7 @@ ALGORITHM ResolveConflict(newRecord, existingRecord)
     IF capabilityConflicts.exists THEN
       // Apply time-based resolution for capability updates
       timeDelta ← TimeElapsedBetween(existingRecord.timestamp, newRecord.timestamp)
-    
+  
       IF timeDelta < CAPABILITY_AUTO_RESOLVE_THRESHOLD THEN
         // Recent update, choose newer by default
         IF newRecord.timestamp > existingRecord.timestamp THEN
@@ -464,21 +469,21 @@ ALGORITHM ResolveConflict(newRecord, existingRecord)
           resolution.action ← "ABORT"
           resolution.reason ← "Newer capability definition already exists"
         END IF
-      
+    
         resolution.audit_trail.conflict_type ← "CAPABILITY_UPDATE"
         resolution.audit_trail.resolution_rule_applied ← "TIME_BASED_AUTO_RESOLUTION"
         resolution.audit_trail.confidence ← 0.8
       ELSE
         // Significant time difference requires manual review for high-risk operations
         riskScore ← CalculateRiskScore(newRecord, existingRecord, capabilityConflicts)
-      
+    
         IF riskScore > MANUAL_REVIEW_THRESHOLD THEN
           resolution.action ← "ESCALATE"
           resolution.reason ← "High-risk capability changes require manual review"
           resolution.audit_trail.conflict_type ← "CAPABILITY_UPDATE"
           resolution.audit_trail.resolution_rule_applied ← "RISK_BASED_ESCALATION"
           resolution.audit_trail.confidence ← 0.5
-        
+      
           // Trigger manual review workflow
           TriggerManualReview(newRecord, existingRecord, capabilityConflicts, riskScore)
         ELSE
@@ -488,7 +493,7 @@ ALGORITHM ResolveConflict(newRecord, existingRecord)
           resolution.audit_trail.confidence ← 0.7
         END IF
       END IF
-    
+  
       RETURN resolution
     END IF
   
@@ -497,11 +502,13 @@ ALGORITHM ResolveConflict(newRecord, existingRecord)
     RETURN resolution
   END
 ```
+
 In essence, if the blockchain says an agent is revoked, that decision wins (algorithm aborts). Otherwise, availability issues defer to the database state, and capability changes are resolved by timestamps or manual review.
 
 #### 3.2.3 Trust Verification Protocol
 
 The Trust Verification Protocol MUST:
+
 * Implement multi-level verification mechanisms
 * Coordinate with distributed validators for trust establishment
 * Provide cryptographic proofs of verification
@@ -564,10 +571,10 @@ ALGORITHM VerifyWithValidators(agentId, claimsToVerify, requiredConsensus)
       // Count validators confirming this claim
       validatorsConfirming ← CountValidatorsConfirming(validResponses, claim)
       consensusLevel ← validatorsConfirming / validResponses.length
-    
+  
       // Calculate weighted consensus based on validator reputation
       weightedConsensus ← CalculateWeightedConsensus(validResponses, claim)
-    
+  
       claimResults[claim] ← {
         "verified": weightedConsensus >= requiredConsensus,
         "consensus_level": consensusLevel,
@@ -600,6 +607,7 @@ ALGORITHM VerifyWithValidators(agentId, claimsToVerify, requiredConsensus)
 #### 3.2.4 Policy Distribution Module
 
 The Policy Distribution Module MUST:
+
 * Allow registration and distribution of agent interaction policies
 * Implement policy evaluation during verification operations
 * Support standardised policy language for machine-readable controls
@@ -618,6 +626,7 @@ This layer MUST provide strong trust guarantees through blockchain technology an
 #### 3.3.1 Blockchain Registry
 
 The Blockchain Registry MUST:
+
 * Store immutable records of agent registrations and claims
 * Provide tamper-proof verification history
 * Enable third-party verification of agent identities
@@ -629,6 +638,7 @@ The Blockchain Registry MUST:
 #### 3.3.2 Distributed Validators
 
 The Distributed Validators (e.g. a node run by an organisation) component MUST:
+
 * Provide a network of nodes that validate agent claims
 * Be geographically and organisationally diverse for trust
 * Reach consensus on verification of critical agent attributes
@@ -642,6 +652,7 @@ The Distributed Validators (e.g. a node run by an organisation) component MUST:
 #### 3.3.3 Smart Contracts
 
 The Smart Contracts component MUST:
+
 * Encode verification rules and governance in blockchain code
 * Manage verification states and proofs
 * Automate validation processes
@@ -652,9 +663,11 @@ The Smart Contracts component MUST:
 * Record publicly auditable evidence for validator slashing
 
 #### 3.3.4 Validator Reputation System
+
 **Status**: Under Development
 
 The Validator Reputation System MUST:
+
 * Track validator performance and reliability over time
 * Affect validator influence in consensus decisions
 * Consider factors like uptime, accuracy, and response time
@@ -665,9 +678,11 @@ The Validator Reputation System MUST:
 This ensures that validators with a history of accurate attestations have more influence in consensus decisions.
 
 #### 3.3.5 Zero-Knowledge Proof System
+
 **Status**: Under Development
 
 The Zero-Knowledge Proof System MUST:
+
 * Enable privacy-preserving verification of agent attributes
 * Allow selective disclosure of capabilities without revealing sensitive details
 * Support verification of compliance without exposing implementation details
@@ -682,7 +697,9 @@ For example, an agent could prove it has a certified capability level without re
 ANS is designed to integrate with existing standards and protocols to maximise compatibility and adoption:
 
 #### 3.4.1 DID (Decentralised Identifier) Integration
+
 ANS agent identifiers SHOULD be mappable to DID specifications:
+
 ```json
 {
   "agent_id": "my-agent.example.ans",
@@ -700,9 +717,11 @@ ANS agent identifiers SHOULD be mappable to DID specifications:
   }
 }
 ```
+
 > Example: An ANS agent record with a corresponding Decentralized Identifier (DID)
 
 #### 3.4.2 DNS-SD Integration
+
 For service discovery via DNS:
 
 ```pseudocode
@@ -713,6 +732,7 @@ _ans._tcp.<domain> IN TXT "agentId=<agent_id>" "capabilities=<cap1,cap2>"
 This shows how an agent could publish its ANS service via DNS Service Discovery, using a standard SRV record and TXT metadata (with an ANS-specific prefix).
 
 #### 3.4.3 gRPC Service Discovery
+
 For programmatic service discovery:
 
 ```protobuf
@@ -735,7 +755,9 @@ message LookupRequest {
 ```
 
 #### 3.4.4 OpenAPI Specification
+
 ANS SHOULD expose a standardised API described in OpenAPI:
+
 ```yaml
 openapi: 3.0.0
 info:
@@ -801,8 +823,8 @@ sequenceDiagram
     Registry Gateway->>User: Return agent list with endpoints
 ```
 
-> Figure 2: Lookup Operation Sequence Diagram 
- 
+> Figure 2: Lookup Operation Sequence Diagram
+
 Figure 2 illustrates the flow of an agent lookup request initiated by a user/agent to the Registry Gateway, which then interacts with the Authentication Service, Cache Layer, and High Performance Database to retrieve and return agent details.
 
 #### 4.1.1 Lookup API
@@ -886,11 +908,12 @@ sequenceDiagram
     Synchronisation Engine->>High Performance DB: Update verification status
     Synchronisation Engine->>User: Verification complete notification
 ```
+
 > Figure 3: Registration Operation Sequence Diagram
-> 
+>
 > Depicts the process of an agent registering with ANS, from the initial request to the Registry Gateway, provisional storage in the High Performance DB, and subsequent verification steps involving the Synchronisation Engine, Blockchain Registry, and potentially the Zero-Knowledge Proof System. Full registration is contingent upon successful verification.
 
->[!Note]
+> [!Note]
 > Full registration isn’t complete until validators confirm.
 
 #### 4.2.1 Registration API
@@ -986,8 +1009,9 @@ sequenceDiagram
     Synchronisation Engine->>Blockchain Registry: Record deregistration with reason
     Blockchain Registry->>Synchronisation Engine: Confirmation
 ```
-> Figure 4: Deregistration Operation Sequence Diagram. 
-> 
+
+> Figure 4: Deregistration Operation Sequence Diagram.
+>
 > Shows the steps for removing an agent or revoking its capabilities. The process is initiated at the Registry Gateway, involves updates to the High-Performance DB and cache, and is finalized by the Synchronisation Engine recording the deregistration on the Blockchain Registry.
 
 #### 4.3.1 Deregistration API
@@ -1067,8 +1091,8 @@ sequenceDiagram
     end
 ```
 
-> Figure 5: Verification Operation Sequence Diagram. 
-> 
+> Figure 5: Verification Operation Sequence Diagram.
+>
 > Illustrates the agent verification process initiated by a user/agent via the Registry Gateway. The Registry Gateway routes the request to the Trust Verification Protocol, which then coordinates with components like the High Performance DB, Blockchain Registry, Zero-Knowledge Proof System, and Policy Distribution Module depending on the required verification level and context.
 
 #### 4.4.1 Verification API
@@ -1163,7 +1187,7 @@ sequenceDiagram
 ```
 
 > Figure 6: Policy Management Operation Sequence Diagram
-> 
+>
 > Details the process for publishing or updating an agent's interaction policies. A user/agent submits the policy via the Registry Gateway, which then involves the Authentication Service, Policy Distribution Module, High Performance DB, and the Synchronisation Engine to record the policy hash on the Blockchain Registry.
 
 #### 4.5.1 Policy Management API
@@ -1224,11 +1248,11 @@ sequenceDiagram
 
 The ANS system MUST support multiple verification levels to accommodate different trust requirements:
 
-| Verification Level | Mechanism                                     | Use Case                       | Performance      | Trust Guarantee |
-| ------------------ | --------------------------------------------- | ------------------------------ | ---------------- | --------------- |
-| Basic              | Digital signature validation                  | Non-critical agent discovery   | High (ms)        | Limited         |
-| Standard           | Enhanced checks with third-party verification | Typical integration | Medium (100s ms) | Moderate        |
-| Blockchain         | Full blockchain consensus verification        | Mission-critical operations    | Low (seconds)    | Highest         |
+| Verification Level | Mechanism                                     | Use Case                     | Performance      | Trust Guarantee |
+| ------------------ | --------------------------------------------- | ---------------------------- | ---------------- | --------------- |
+| Basic              | Digital signature validation                  | Non-critical agent discovery | High (ms)        | Limited         |
+| Standard           | Enhanced checks with third-party verification | Typical integration          | Medium (100s ms) | Moderate        |
+| Blockchain         | Full blockchain consensus verification        | Mission-critical operations  | Low (seconds)    | Highest         |
 
 The following algorithm defines the progressive trust implementation, formalising the transition between trust levels:
 Agents start at their current verification level and can step up through Basic → Standard → Blockchain checks until the target level is reached.
@@ -1260,7 +1284,7 @@ ALGORITHM VerifyAgentWithProgressiveTrust(agentId, targetLevel, requiredClaims)
     // If already at or above target level, validate it's still valid
     IF TrustLevelRank(currentLevel) >= TrustLevelRank(targetLevel) THEN
       verificationResult ← ValidateExistingTrustLevel(agent, currentLevel, requiredClaims)
-    
+  
       IF verificationResult.verified THEN
         verification.verified ← true
         verification.claims_verified ← verificationResult.claims_verified
@@ -1275,19 +1299,19 @@ ALGORITHM VerifyAgentWithProgressiveTrust(agentId, targetLevel, requiredClaims)
     // Step 1: Achieve Basic verification if needed
     IF TrustLevelRank(currentLevel) < TrustLevelRank("basic") AND
        TrustLevelRank(targetLevel) >= TrustLevelRank("basic") THEN
-     
+   
       basicResult ← VerifyBasicLevel(agent, requiredClaims)
-    
+  
       IF NOT basicResult.verified THEN
         verification.reason ← basicResult.reason
         RETURN verification
       END IF
-    
+  
       currentLevel ← "basic"
       verification.level_achieved ← "basic"
       verification.claims_verified ← basicResult.claims_verified
       verification.proofs.basic ← basicResult.proofs
-    
+  
       // If target was basic, we're done
       IF targetLevel == "basic" THEN
         verification.verified ← true
@@ -1298,20 +1322,20 @@ ALGORITHM VerifyAgentWithProgressiveTrust(agentId, targetLevel, requiredClaims)
     // Step 2: Achieve Standard verification if needed
     IF TrustLevelRank(currentLevel) < TrustLevelRank("standard") AND
        TrustLevelRank(targetLevel) >= TrustLevelRank("standard") THEN
-     
+   
       standardResult ← VerifyStandardLevel(agent, requiredClaims)
-    
+  
       IF NOT standardResult.verified THEN
         // Still maintain basic verification
         verification.reason ← standardResult.reason
         RETURN verification
       END IF
-    
+  
       currentLevel ← "standard"
       verification.level_achieved ← "standard"
       verification.claims_verified ← [...verification.claims_verified, ...standardResult.claims_verified]
       verification.proofs.standard ← standardResult.proofs
-    
+  
       // If target was standard, we're done
       IF targetLevel == "standard" THEN
         verification.verified ← true
@@ -1322,20 +1346,20 @@ ALGORITHM VerifyAgentWithProgressiveTrust(agentId, targetLevel, requiredClaims)
     // Step 3: Achieve Blockchain verification if needed
     IF TrustLevelRank(currentLevel) < TrustLevelRank("blockchain") AND
        TrustLevelRank(targetLevel) >= TrustLevelRank("blockchain") THEN
-     
+   
       blockchainResult ← VerifyBlockchainLevel(agent, requiredClaims)
-    
+  
       IF NOT blockchainResult.verified THEN
         // Still maintain previous verification level
         verification.reason ← blockchainResult.reason
         RETURN verification
       END IF
-    
+  
       currentLevel ← "blockchain"
       verification.level_achieved ← "blockchain"
       verification.claims_verified ← [...verification.claims_verified, ...blockchainResult.claims_verified]
       verification.proofs.blockchain ← blockchainResult.proofs
-    
+  
       verification.verified ← true
     END IF
   
@@ -1379,8 +1403,9 @@ graph LR
     style D fill:#ccccff
     style E fill:#e6ccff
 ```
+
 > Figure 7: Available Verification Levels for Agent Interactions
-> 
+>
 > This diagram illustrates the spectrum of verification levels that a user or agent can request when interacting with another agent via ANS.
 
 ### 5.4 Rapid Revocation Mechanism
@@ -1425,8 +1450,8 @@ ANS SHOULD provide mechanisms to verify the components of AI agents:
 ## 6. Security and Governance Capabilities
 
 ### 6.1 Data Residency and Sovereignty
-> Pending legal review
 
+> Pending legal review
 
 ANS must support keeping agent data within specific regions or jurisdictions.
 
@@ -1554,8 +1579,9 @@ sequenceDiagram
         Agent A->>Agent A: Abort connection attempt
     end
 ```
+
 > Figure 8: ANS-Enhanced A2A Protocol Integration Flow
-> 
+>
 > Example flow showing how an agent (Agent A) uses ANS for discovery and verification of another agent (Agent B), potentially requesting a contextual attestation, before initiating an Agent-to-Agent (A2A) communication session. The flow also includes optional dynamic policy negotiation.
 
 ANS enhances the A2A protocol through:
@@ -1568,10 +1594,13 @@ ANS enhances the A2A protocol through:
 * **Cross-Organisational Trust**: Enabling A2A communication across organisation boundaries
 * **Dynamic Capability Discovery**: Support for agent-advertised capability discovery endpoints
 * **Contextual Attestations**: Short-lived verification tokens for specific interaction contexts
-* **Dynamic Policy Exchange/Negotiation**: Support for session-specific policy negotiation 
+* **Dynamic Policy Exchange/Negotiation**: Support for session-specific policy negotiation
+
 > prototype phase
+
 * **Policy Negotiation Endpoints**: Specialised endpoints for dynamic policy negotiation
->prototype phase
+
+> prototype phase
 
 ### 7.2 MCP Protocol Integration
 
@@ -1610,7 +1639,7 @@ sequenceDiagram
 ```
 
 > Figure 9: ANS-Enhanced MCP Protocol Integration Flow
-> 
+>
 > Illustrates how an agent uses ANS to discover and verify an MCP server and its tools. The process can include policy checks, contextual attestations, and dynamic policy negotiation before the agent connects to the MCP endpoint to execute tool operations.
 
 ANS enhances the MCP protocol through:
@@ -1628,7 +1657,7 @@ ANS enhances the MCP protocol through:
 
 ### 7.3 Standardised Capability Taxonomy
 
-ANS defines a standard taxonomy so that agents can advertise known capabilities in a common way. 
+ANS defines a standard taxonomy so that agents can advertise known capabilities in a common way.
 ANS MUST implement a standardised taxonomy for agent capabilities with governance mechanisms. The following is a sample structure for such a taxonomy.
 
 ```json
@@ -1696,7 +1725,7 @@ sequenceDiagram
 ```
 
 > Figure 10: Delegated Task Execution Workflow with ANS
-> 
+>
 > Demonstrates a complex scenario where Agent A discovers and verifies Agent B using ANS (including ZKP and contextual attestations), delegates a task via A2A. Agent B, in turn, uses ANS to discover and verify appropriate MCP tools to perform its sub-tasks before returning results to Agent A.
 
 #### Multi-Agent Collaboration:
@@ -1743,12 +1772,13 @@ sequenceDiagram
 ```
 
 > Figure 11: Multi-Agent Collaboration Workflow with ANS
-> 
+>
 > Shows an orchestrator discovering, verifying (with attestations), and establishing A2A connections with multiple specialised agents after dynamic policy negotiation. These agents may then independently use ANS to discover MCP tools for their respective tasks, collaborate, and return final results to the orchestrator.
 
 ## 8. Implementation Considerations
 
 ### 8.1 Architecture Design Patterns
+
 The following patterns can help developers build ANS-compliant systems.
 Implementations of the ANS specification SHOULD consider the following architectural patterns:
 
@@ -1866,23 +1896,22 @@ Phase 3: Ecosystem Expansion & Standardization Efforts
 
 Phase 4: Global Adoption & Advanced Capabilities
 
-| Milestone                | Deliverables                                         |
-|--------------------------|------------------------------------------------------|
-| v0.2.0 Draft Release     | Complete Threat Model & Security Assumptions section |
-|                          | Initial Performance Model (latency & QPS targets)    |
-|Community Review I	       | Public RFC (security, performance)                   |
-|                          | Solicit feedback via GitHub Issues / mailing list    |
-|Policy Grammar v0.1	     | Publish formal policy-language spec (syntax + examples)|
-|                          | Add sample JSON/XACML snippets                       |
-|Governance Spec v0.1      | Detailed consensus algorithm choice & rationale      |
-|                          | Validator onboarding/safeguard procedures            |
-|SDK & Reference Impl      | Release a minimal ANS node prototype                 |
-|                          | Provide Postman/OpenAPI playground                   |
-|Interoperability Guide    | End-to-end integration examples (REST, gRPC, DNS)    |
-|                          | How-to with third-party systems                      |
-|v1.0.0 “Stable” Release   | Consolidate all feedback & finalize spec             |
-|                          | Cut v1.0.0; declare production-ready                 |
-
+| Milestone                 | Deliverables                                            |
+| ------------------------- | ------------------------------------------------------- |
+| v0.2.0 Draft Release      | Complete Threat Model & Security Assumptions section    |
+|                           | Initial Performance Model (latency & QPS targets)       |
+| Community Review I        | Public RFC (security, performance)                      |
+|                           | Solicit feedback via GitHub Issues / mailing list       |
+| Policy Grammar v0.1       | Publish formal policy-language spec (syntax + examples) |
+|                           | Add sample JSON/XACML snippets                          |
+| Governance Spec v0.1      | Detailed consensus algorithm choice & rationale         |
+|                           | Validator onboarding/safeguard procedures               |
+| SDK & Reference Impl      | Release a minimal ANS node prototype                    |
+|                           | Provide Postman/OpenAPI playground                      |
+| Interoperability Guide    | End-to-end integration examples (REST, gRPC, DNS)       |
+|                           | How-to with third-party systems                         |
+| v1.0.0 “Stable” Release | Consolidate all feedback & finalize spec                |
+|                           | Cut v1.0.0; declare production-ready                    |
 
 ## Appendix A: API Interface Examples
 
@@ -2113,7 +2142,7 @@ if mcp_servers:
                     "purpose_limitation": ["code_generation_only"]
                 }
             )
-    
+  
             if negotiation.accepted:
                 print(f"Policy negotiated successfully: {negotiation.accepted_parameters}")
   
@@ -2380,26 +2409,31 @@ contract AgentVerificationRegistry is AccessControl, ReentrancyGuard {
 The smart contracts in the ANS model MUST adhere to the following security properties:
 
 #### C.2.1 Authentication
+
 * Only administrators can add/remove validators
 * Only validators can record verifications
 * Only administrators can slash validators
 
 #### C.2.2 Immutability
+
 * Once recorded, verification records cannot be modified
 * Revocation can only add information, never remove it
 * Capability revocation can only add revoked capabilities, never remove them
 
 #### C.2.3 Transparency
+
 * All verification operations emit corresponding events
 * All validator management operations emit corresponding events
 * All slashing operations include evidence references
 
 #### C.2.4 Non-Repudiation
+
 * All operations record the sender's address
 * Verification records include a timestamp
 * Events contain all necessary audit information
 
 #### C.2.5 Liveness
+
 * Validator incentives increase with successful verifications
 * Higher reputation leads to higher influence in consensus
 * Inactivity penalties encourage regular participation
@@ -2407,36 +2441,37 @@ The smart contracts in the ANS model MUST adhere to the following security prope
 ## Appendix D: Security Considerations
 
 ### D.1 Threat Model
+
 **Status**: Under Development
 
 The ANS system is designed with a comprehensive threat model that maps specific threats to required mitigation mechanisms. Table D.1 provides a formal threat matrix with explicit links between each threat vector and its corresponding mitigation implementation.
 
 **Table D.1: Threat Matrix with Linked Mitigations**
 
-| Threat Category | Specific Threat | Impact | Likelihood | Mitigation Mechanism | Implementation Reference |
-|-----------------|-----------------|--------|------------|----------------------|--------------------------|
-| **Impersonation** | Agent spoofing | High | Medium | Multi-level verification with progressive trust | `VerifyAgentWithProgressiveTrust()` algorithm |
-| | Validator impersonation | Critical | Low | Validator reputation system with slashing | `ValidatorReputationSystem` in smart contract |
-| | Endpoint forgery | High | Medium | Endpoint validation with challenge-response | `VerifyEndpoint()` in verification protocol |
-| **Denial of Service** | API flooding | Medium | High | Rate limiting with circuit breakers | Registry Gateway component |
-| | Blockchain congestion | Medium | Medium | Transaction batching with priority queues | `SubmitToBlockchain()` algorithm |
-| | Validator saturation | Medium | Low | Dynamic validator selection | `SelectEligibleValidators()` function |
-| **Man-in-the-Middle** | Registry response tampering | High | Low | Signed responses with blockchain verification | `GenerateCryptographicProof()` algorithm |
-| | Attestation interception | High | Low | Short-lived context-bound tokens | `GenerateContextualAttestation()` algorithm |
-| **Replay Attacks** | Verification replay | Medium | Medium | Timestamped nonces in all requests | Request preparation in all algorithms |
-| | Attestation reuse | High | Medium | Context binding with expiration | `GenerateContextualAttestation()` algorithm |
-| **Trust Forgery** | False capability claims | High | Medium | Capability endorsement with blockchain proof | `VerifyCapabilitiesNotRevoked()` function |
-| | Fabricated attestations | Critical | Low | Cryptographic signature verification | Basic verification in `VerifyBasicLevel()` |
-| **Data Poisoning** | Malicious agent records | High | Medium | Strict validation with Validator consensus | `VerifyWithValidators()` algorithm |
-| | Invalid capability updates | Medium | Medium | Risk-based conflict resolution | `CalculateRiskScore()` algorithm |
-| **Validator Collusion** | Colluding validators | Critical | Low | Diversity requirements with reputation-weighted influence | `CalculateWeightedConsensus()` function |
-| | Malicious majority | Critical | Very Low | Transparent slashing with evidence | `slashValidator()` in smart contract |
-| **Regional Bypass** | Data residency violation | High | Medium | Cryptographic controls with geo-fencing | Policy Distribution Module |
-| | Regional isolation bypass | Medium | Low | Immutable access logs on blockchain | Audit trail in all components |
-| **Metadata Leakage** | Sensitive info in federation | Medium | High | Data minimisation with selective sharing | `FilterFederatedAttributes()` function |
-| | Context leakage | Medium | Medium | Zero-knowledge proofs for sensitive claims | `VerifyZeroKnowledgeProofs()` algorithm |
-| **API Exploitation** | Parameter injection | High | High | Input validation with strict type checking | Implemented in all API endpoints |
-| | Method confusion | Medium | Medium | Method-specific authentication | `Authentication Service` component |
+| Threat Category               | Specific Threat              | Impact   | Likelihood | Mitigation Mechanism                                      | Implementation Reference                        |
+| ----------------------------- | ---------------------------- | -------- | ---------- | --------------------------------------------------------- | ----------------------------------------------- |
+| **Impersonation**       | Agent spoofing               | High     | Medium     | Multi-level verification with progressive trust           | `VerifyAgentWithProgressiveTrust()` algorithm |
+|                               | Validator impersonation      | Critical | Low        | Validator reputation system with slashing                 | `ValidatorReputationSystem` in smart contract |
+|                               | Endpoint forgery             | High     | Medium     | Endpoint validation with challenge-response               | `VerifyEndpoint()` in verification protocol   |
+| **Denial of Service**   | API flooding                 | Medium   | High       | Rate limiting with circuit breakers                       | Registry Gateway component                      |
+|                               | Blockchain congestion        | Medium   | Medium     | Transaction batching with priority queues                 | `SubmitToBlockchain()` algorithm              |
+|                               | Validator saturation         | Medium   | Low        | Dynamic validator selection                               | `SelectEligibleValidators()` function         |
+| **Man-in-the-Middle**   | Registry response tampering  | High     | Low        | Signed responses with blockchain verification             | `GenerateCryptographicProof()` algorithm      |
+|                               | Attestation interception     | High     | Low        | Short-lived context-bound tokens                          | `GenerateContextualAttestation()` algorithm   |
+| **Replay Attacks**      | Verification replay          | Medium   | Medium     | Timestamped nonces in all requests                        | Request preparation in all algorithms           |
+|                               | Attestation reuse            | High     | Medium     | Context binding with expiration                           | `GenerateContextualAttestation()` algorithm   |
+| **Trust Forgery**       | False capability claims      | High     | Medium     | Capability endorsement with blockchain proof              | `VerifyCapabilitiesNotRevoked()` function     |
+|                               | Fabricated attestations      | Critical | Low        | Cryptographic signature verification                      | Basic verification in `VerifyBasicLevel()`    |
+| **Data Poisoning**      | Malicious agent records      | High     | Medium     | Strict validation with Validator consensus                | `VerifyWithValidators()` algorithm            |
+|                               | Invalid capability updates   | Medium   | Medium     | Risk-based conflict resolution                            | `CalculateRiskScore()` algorithm              |
+| **Validator Collusion** | Colluding validators         | Critical | Low        | Diversity requirements with reputation-weighted influence | `CalculateWeightedConsensus()` function       |
+|                               | Malicious majority           | Critical | Very Low   | Transparent slashing with evidence                        | `slashValidator()` in smart contract          |
+| **Regional Bypass**     | Data residency violation     | High     | Medium     | Cryptographic controls with geo-fencing                   | Policy Distribution Module                      |
+|                               | Regional isolation bypass    | Medium   | Low        | Immutable access logs on blockchain                       | Audit trail in all components                   |
+| **Metadata Leakage**    | Sensitive info in federation | Medium   | High       | Data minimisation with selective sharing                  | `FilterFederatedAttributes()` function        |
+|                               | Context leakage              | Medium   | Medium     | Zero-knowledge proofs for sensitive claims                | `VerifyZeroKnowledgeProofs()` algorithm       |
+| **API Exploitation**    | Parameter injection          | High     | High       | Input validation with strict type checking                | Implemented in all API endpoints                |
+|                               | Method confusion             | Medium   | Medium     | Method-specific authentication                            | `Authentication Service` component            |
 
 ### D.2 Zero-Trust Implementation
 
@@ -2527,6 +2562,7 @@ ALGORITHM ThreatDetectionAndResponse(detectedThreat)
 ```
 
 ## Appendix E: AIBOM Format Specification
+
 **Status**: Under Development
 
 The AI Bill of Materials (AIBOM) format standardises the documentation of AI components:
@@ -2659,18 +2695,18 @@ class ANSNameResolver {
   async resolveAgentName(name: string): Promise<string | null> {
     // Parse name components
     const [agentName, domain] = this.parseAgentName(name);
-    
+  
     try {
       // Look up DNS TXT records
       const txtRecords = await dns.promises.resolveTxt(`_ans._tcp.${domain}`);
-      
+    
       // Find matching agent record
       for (const record of txtRecords.flat()) {
         const entries = record.split(';').map(entry => {
           const [key, value] = entry.split('=');
           return { key, value };
         });
-        
+      
         const agent = entries.find(e => e.key === 'agentName' && e.value === agentName);
         if (agent) {
           // Find agent ID entry
@@ -2680,7 +2716,7 @@ class ANSNameResolver {
           }
         }
       }
-      
+    
       return null;
     } catch (error) {
       console.error(`Error resolving agent name ${name}:`, error);
@@ -2721,18 +2757,18 @@ ALGORITHM VerifyZeroKnowledgeProofs(agent, privateClaims)
         result.reason ← "No commitment found for claim: " + claim
         RETURN result
       END IF
-    
+  
       // Get the proof provided for this claim
       proof ← agent.private_claims[claim]
-    
+  
       IF proof == null THEN
         result.reason ← "No proof provided for claim: " + claim
         RETURN result
       END IF
-    
+  
       // Step 3: Verify the ZKP using appropriate verification algorithm
       zkpType ← DetermineZKPType(proof)
-    
+  
       IF zkpType == "BULLETPROOF" THEN
         verificationResult ← VerifyBulletproof(proof, zkpCommitments[claim])
       ELSIF zkpType == "ZK_SNARK" THEN
@@ -2741,7 +2777,7 @@ ALGORITHM VerifyZeroKnowledgeProofs(agent, privateClaims)
         result.reason ← "Unsupported ZKP type: " + zkpType
         RETURN result
       END IF
-    
+  
       // Step 4: Record verification result
       IF verificationResult.verified THEN
         result.verified_claims.append(claim)
@@ -2764,6 +2800,7 @@ ALGORITHM VerifyZeroKnowledgeProofs(agent, privateClaims)
 ```
 
 ### G.2 AIBOM Verification
+
 **Status**: Experimental
 
 ```pseudocode
@@ -2795,7 +2832,7 @@ ALGORITHM VerifyAIBOM(agent, aibomHash)
     IF agent.aibom_content != null THEN
       // Compute hash of provided content
       computedHash ← ComputeAibomHash(agent.aibom_content)
-    
+  
       // Verify hash matches
       IF computedHash != aibomHash THEN
         RETURN {
@@ -2805,16 +2842,16 @@ ALGORITHM VerifyAIBOM(agent, aibomHash)
           "registered_hash": aibomHash
         }
       END IF
-    
+  
       // Step 4: Verify AIBOM attestations if present
       IF agent.aibom_content.attestations AND agent.aibom_content.attestations.length > 0 THEN
         attestationResults ← []
-      
+    
         FOR EACH attestation IN agent.aibom_content.attestations DO
           // Verify attestation with issuing authority
           attestationResult ← VerifyAttestationWithAuthority(attestation)
           attestationResults.append(attestationResult)
-        
+      
           // Fail if any attestation is invalid
           IF NOT attestationResult.verified THEN
             RETURN {
@@ -2869,11 +2906,11 @@ ALGORITHM GenerateContextualAttestation(agentId, verificationResult, context, va
     // 3. For high-security contexts, include verification proof hashes
     IF IsHighSecurityContext(context) THEN
       proofHashes ← {}
-    
+  
       FOR EACH level, proof IN verificationResult.proofs DO
         proofHashes[level] ← Hash(Stringify(proof))
       END FOR
-    
+  
       claims.verification_proof_hashes ← proofHashes
     END IF
   
@@ -2892,6 +2929,303 @@ ALGORITHM GenerateContextualAttestation(agentId, verificationResult, context, va
     }
   END
 ```
+
+<!-- ANS-SPEC-ADDENDUM-v0.1.1-DRAFT -->
+
+## Appendix H: Federated Architecture (ANS-FED-v0.1.1)
+
+> **Status**: Proposed for **v0.1.1** – Request for Comment
+> 
+> **Scope**: Adds **federation-only** clauses to the existing ANS spec.
+> 
+> **Compatibility**: Fully additive; no breaking changes to v0.1.0.
+
+### H.1  Vision
+
+> “Many sovereign ANS **cores**, one logical **web**.”
+
+ANS-FED enables any number of independently-operated ANS deployments to:
+
+1. **Discover each other** via standard protocols (DNS-SD, HTTPS, gRPC).
+2. **Synchronise critical state** (revocations, namespaces, validator sets) **without global consensus**.
+3. **Heal from arbitrary failures** in < 30 s while preserving **data-sovereignty boundaries**.
+
+### H.2  Terminology (additive)
+
+| Term                      | Definition                                                                    |
+| ------------------------- | ----------------------------------------------------------------------------- |
+| **Core**            | A complete ANS deployment (Gateway + DB + Bridge + Blockchain).               |
+| **Federation Link** | An authenticated, encrypted, policy-governed channel between two Cores.       |
+| **Anchor Thread**   | A *strong* link carrying revocation & namespace events (strong consistency). |
+| **Signal Thread**   | A *soft* link carrying CRDT deltas (eventual consistency).                   |
+| **Probe Thread**    | A lightweight health-check (< 20 ms) for failure detection.                   |
+| **CNCF (Cloud Native Computing Foundation):**  | The open-source foundation that hosts SPIFFE and other cloud-native projects adopted by ANS-FED for workload identity, service mesh, and container lifecycle management. |
+| **SPIFFE (Secure Production Identity Framework For Everyone):**  | A CNCF standard for issuing and validating cryptographically-verifiable identities (SVIDs) to workloads. ANS cores use SPIFFE IDs (e.g., `spiffe://ans/us-east/core`) to perform mutual TLS authentication over Anchor, Signal, and Probe threads without relying on DNS or IP addresses. |
+
+
+### H.3  High-Level Model
+
+```mermaid
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: '#2d3436'
+    lineColor: '#55a3ff'
+    primaryTextColor: '#ffffff'
+    fontFamily: monospace
+---
+flowchart TD
+ subgraph subGraph0["Spider-Web Federation"]
+        BODY(["ANS Global Namespace"])
+        C1(("🕷️ us-east"))
+        C2(("🕷️ eu-west"))
+        C3(("🕷️ apac"))
+        C4(("🕷️ sa-east"))
+  end
+    BODY -- Anchor --> C1 & C2 & C3 & C4
+    C1 -. Signal .-> C2 & C3
+    C2 -. Signal .-> C3 & C4
+    C3 -. Signal .-> C4
+    C4 -. Signal .-> C1
+    C1 -. Probe .-> C2
+    C2 -. Probe .-> C3
+    C3 -. Probe .-> C4
+    C4 -. Probe .-> C1
+     C1:::Sky
+     C2:::Rose
+     C3:::Pine
+     C3:::Peach
+     C4:::Ash
+    classDef Sky stroke-width:1px, stroke-dasharray:none, stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    classDef Rose stroke-width:1px, stroke-dasharray:none, stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+    classDef Pine stroke-width:1px, stroke-dasharray:none, stroke:#254336, fill:#27654A, color:#FFFFFF
+    classDef Ash stroke-width:1px, stroke-dasharray:none, stroke:#999999, fill:#EEEEEE, color:#000000
+    classDef Peach stroke-width:1px, stroke-dasharray:none, stroke:#FBB35A, fill:#FFEFDB, color:#8F632D
+    style BODY fill:#2962FF,color:none
+    style subGraph0 stroke:#757575,color:#424242
+    linkStyle 0 stroke-width:4px,stroke:#55a3ff,fill:none
+    linkStyle 1 stroke-width:4px,stroke:#55a3ff,fill:none
+    linkStyle 2 stroke-width:4px,stroke:#55a3ff,fill:none
+    linkStyle 3 stroke-width:4px,stroke:#55a3ff,fill:none
+    linkStyle 4 stroke-width:2px,stroke-dasharray: 5 5,stroke:#81ecec,fill:none
+    linkStyle 5 stroke-width:2px,stroke-dasharray: 5 5,stroke:#81ecec,fill:none
+    linkStyle 6 stroke-width:2px,stroke-dasharray: 5 5,stroke:#81ecec,fill:none
+    linkStyle 7 stroke-width:2px,stroke-dasharray: 5 5,stroke:#81ecec,fill:none
+    linkStyle 8 stroke-width:2px,stroke-dasharray: 5 5,stroke:#81ecec,fill:none
+    linkStyle 9 stroke-width:2px,stroke-dasharray: 5 5,stroke:#81ecec,fill:none
+    linkStyle 10 stroke-width:1px,stroke-dasharray: 2 4,stroke:#ff7675,fill:none
+    linkStyle 11 stroke-width:1px,stroke-dasharray: 2 4,stroke:#ff7675,fill:none
+    linkStyle 12 stroke-width:1px,stroke-dasharray: 2 4,stroke:#ff7675,fill:none
+    linkStyle 13 stroke-width:1px,stroke-dasharray: 2 4,stroke:#ff7675,fill:none
+
+```
+
+> Figure H-1: Three-core web with two Anchor and three Probe threads.
+
+Each ANS core (the colored circles) is an independent registry running in its own region.
+The lines show how the cores stay in sync and heal automatically:
+
+|Line Type|	What it carries	|How fast	|What happens if it breaks|
+|---------|-----------------|---------|--------------------------|
+|Solid blue (Anchor)|	Critical data: revocations, namespace updates	|~50 ms	|Traffic is rerouted to the next healthy core in < 30 s|
+|Dashed cyan (Signal)|	Routine gossip: policies, reputation scores	|~200 ms	|Automatic merge when the link comes back|
+|Dotted red (Probe)|	Health-check pings	|Every 5 s	|Sick core is removed from ANS until it recovers|
+
+In short: the web keeps working even when any single region, link, or core fails.
+
+### H.4 Core-to-Core Protocols
+
+#### H.4.1 Discovery
+
+Mechanism: DNS-SD TXT records under `_ans-federation._tcp.<domain>`.
+Example:
+
+```javascript
+_ans-federation._tcp.europe.example.com. 300 IN TXT \
+  "core_id=eu-west" \
+  "anchor_endpoint=https://ans-eu.example.com:443/anchor" \
+  "signal_endpoint=https://ans-eu.example.com:443/signal" \
+  "probe_endpoint=https://ans-eu.example.com:443/probe" \
+  "public_key=jWK..." \
+  "did=did:web:ans-eu.example.com" \
+  "validator_id=val-eu-01" \
+  "validator_reputation=87" \
+  "reputation_source=https://reputation.example.com/eu-west.json" \
+  "capabilities=revoke,namespace"
+```
+Cores MUST verify that federation participants are identified by either: **A DNS-bound DID (did:web)** Or **a SPIFFE identity bound to their certificate subject**.
+
+Validator nodes MUST be rate-limited and reputation-scored using non-self-issued attestations.
+
+#### H.4.2 Anchor Thread Protocol (ATP)
+
+- Transport: HTTPS with mutual TLS (SPIFFE IDs).
+- Payload: Signed `AnchorPacket` protobuf, extended with `sequence_number` and optional replay flags.
+- Consistency: Quorum acknowledgement (≥ ½ peers).
+- Failure handling: exponential back-off + circuit breaker.
+- Sequence: Monotonically increasing `sequence_number` per core, included in each packet.
+- Replay Support: Upon reconnection, a peer may request missing packets using `ReplayRequest`.
+- Recovery: Anchor history MUST be stored for at least `T = 72h` for replay on demand.
+
+#### H.4.3 Signal Thread Protocol (STP)
+
+- Transport: gRPC streaming.
+- Payload: Signed CRDT delta frames. Each `DeltaFrame` MUST include:
+    - `timestamp`
+    - `core_id`
+    - `signature` over payload + timestamp
+    - `validator_id` (if applicable)
+- Consistency: eventual (monotonic join).
+- Conflict resolution: last-writer-wins with validator-weighted merge.
+- Security: Receiving cores MUST verify all signatures and timestamps (< 5 min skew) before merging.
+- Replay Protection: DeltaFrames with duplicate nonces or timestamps MUST be discarded.
+
+#### H.4.4 Probe Thread Protocol (PTP)
+
+- Transport: `HTTP GET /probe?nonce="<rand>"` returning signed JSON:
+
+```json
+{
+  "core_id": "us-east",
+  "nonce": 123456,
+  "block_height": 15783922,
+  "signature": "0xabc..."
+}
+```
+
+- Failure: 3 consecutive misses ⇒ mark unhealthy, drain traffic.
+
+### H.5 Auto-Healing Engine (AHE)
+
+|Component|	Trigger|	Action |	SLA |
+|---------|---------|-------|----|
+|Link Monitor|	latency_p99 > 50 ms OR loss > 5 %	|Switch to secondary path	| < 30 s|
+|Gossip Reconciler|	CRDT fork > 2 versions |	3-way merge + replay	| < 200 ms|
+|Health Prober|	3 missed probes	| Remove from DNS-SD + reroute	| < 10 s|
+|Release Molter|	Canary error-rate > 1 | %	Blue/green rollback	| < 10 s|
+|Backup Promoter|	Region outage detected|	Promote cold storage	| < 60 s|
+
+### H.6 Policy & Governance
+
+1. Policy Conflict Resolution
+
+    ```json
+    // Example
+    {
+      "conflict_policy": {
+        "default": "deny",
+        "on_missing_fields": "deny",
+        "on_reputation_mismatch": "defer_to_higher_weight"
+      }
+    }
+    
+    ```
+
+      - If `coreA` allows federation with `coreB` but `coreB` denies `coreA`, the link MUST NOT activate.
+      - Tie-breaking rules (e.g., based on validator weight or latency) MAY be defined but default is to deny.
+  
+2. Federation Policy DSL
+
+    ```json
+    {
+      "allow_cores": ["*.example.com"],
+      "max_latency_ms": 50,
+      "min_validators": 2,
+      "data_classes": ["revocation", "namespace"],
+      "encrypt": true,
+      "capability_merge_sla": {
+        "revocation": 500,
+        "namespace": 1000,
+        "policy": 1500
+      }
+    }
+    ```
+
+    `capability_merge_sla` defines maximum merge delay targets (in ms) per capability class across the federation.
+
+3. Validator Weighting
+
+    ```go
+    weight = log2(reputation + 1)
+    ```
+
+4. Slashing
+
+      - Malicious gossip: -20 % reputation
+      - Repeated link drops: -5 % reputation
+
+### H.7 Message Schema
+
+```protobuf
+
+syntax = "proto3";
+package ans.federation.v1;
+
+message AnchorPacket {
+  string from_core = 1;
+  string to_core   = 2;
+  uint64 nonce     = 3;
+  bytes payload_hash = 4;
+  bytes signature  = 5;
+  oneof payload {
+    RevocationEvent revoke = 10;
+    NamespaceUpdate namespace = 11;
+    ValidatorHeartbeat vhb = 12;
+  }
+}
+
+message RevocationEvent {
+  string agent_id = 1;
+  string reason   = 2;
+  uint64 block    = 3;
+}
+
+message NamespaceUpdate {
+  string fqdn     = 1;
+  repeated string capabilities = 2;
+}
+```
+
+### H.8 Deployment Blueprint (Terraform Snippet)
+
+```hcl
+
+module "ans_federation" {
+  source  = "gclouds/ans-federation/google"
+  version = "~> 0.1.1"
+
+  cores = {
+    us-east = { region = "us-east4", asn = 65001 }
+    eu-west = { region = "europe-west2", asn = 65002 }
+    apac    = { region = "asia-southeast1", asn = 65003 }
+  }
+
+  link_specs = {
+    anchor_latency_ms = 50
+    signal_latency_ms = 200
+    probe_interval_s  = 5
+  }
+
+  security = {
+    cert_issuer       = "spiffe://ans-federation.example.com"
+    probe_keys_pub    = ["0xabc123...", "0xdef456..."]
+    key_rotation_days = 7
+  }
+
+  tls_version = "1.3"
+}
+```
+
+### H.9 Compliance Matrix
+
+| Requirement	| Met By |
+|-------------|---------|
+| Zero-trust  |	Mutual TLS + SPIFFE IDs |
+| Data-sovereignty | Regional storage, selective replication |
+| GDPR / Schrems II | Encrypted in transit + regional keys |
+| Zero-downtime upgrade |	Blue/green molting |
+| Auditability |	Logs in Cloud Logging + GCS |
 
 ## References
 

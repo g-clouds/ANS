@@ -32,7 +32,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install mkdocs mkdocs-material pymdown-extensions
+          pip install mkdocs mkdocs-material pymdown-extensions mkdocs-mermaid2-plugin
           # If you add other plugins later and list them in a requirements.txt:
           # pip install -r requirements-docs.txt
 

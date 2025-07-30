@@ -2,7 +2,7 @@
 
 **Core Mechanisms for High Performance Discovery, Multi-Level Trust, and Confidential Verification**
 
-**Version 0.1.0 – Request for Comment**  | **02 May 2025**
+**Version [![GitHub release (latest by date)](https://img.shields.io/github/v/release/g-clouds/ans?style=flat-square)](https://github.com/g-clouds/ans/releases/latest) – Request for Comment**
 
 **gClouds R&D | gLabs**
 

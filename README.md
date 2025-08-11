@@ -81,7 +81,7 @@ The documentation site is built using [MkDocs](https://www.mkdocs.org/) with the
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/g-clouds/ans.git
+    git clone https://github.com/g-clouds/ANS.git
     cd ans
     ```
 2.  **Install dependencies:**

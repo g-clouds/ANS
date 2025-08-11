@@ -1,0 +1,83 @@
+steps:
+- id: 'branch name'
+  name: 'alpine'
+  entrypoint: 'sh'
+  args:
+  - '-c'
+  - |
+      echo "***********************"
+      echo "$BRANCH_NAME"
+      echo "***********************"
+- id: 'SSH key setup'
+  name: 'gcr.io/cloud-builders/git'
+  secretEnv: ['SSH_KEY']
+  entrypoint: 'bash'
+  args:
+  - -c
+  - |
+    echo "$$SSH_KEY" >> /root/.ssh/id_rsa
+    chmod 400 /root/.ssh/id_rsa
+    ssh-keyscan -t rsa github.com > known_hosts.github
+    cp known_hosts.github /root/.ssh/known_hosts
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
+- id: 'terraform init'
+  name: 'hashicorp/terraform:1.12.2'
+  entrypoint: 'terraform'
+  dir: 'terraform'
+  args:
+  - 'init'
+  - '-input=false'
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
+- id: 'terraform plan'
+  name: 'hashicorp/terraform:1.12.2'
+  entrypoint: 'terraform'
+  dir: 'terraform'
+  args:
+  - 'plan'
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
+- id: 'terraform apply if branch is main'
+  name: 'hashicorp/terraform:1.12.2'
+  entrypoint: 'sh'
+  dir: 'terraform'
+  args:
+  - '-c'
+  - |
+    if [ "$BRANCH_NAME" = "main" ]; then
+      terraform apply -auto-approve
+    else
+      echo "Not on the 'main' branch, skipping terraform apply."
+    fi
+  env:
+  - 'BRANCH_NAME=${BRANCH_NAME}'
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
+- id: 'Terraform destroy if branch is destroy'
+  name: 'hashicorp/terraform:1.12.2'
+  entrypoint: 'sh'
+  dir: 'terraform'
+  args:
+  - '-c'
+  - |
+    if [ "$BRANCH_NAME" = "destroy" ]; then
+      terraform destroy -auto-approve
+    else
+      echo "Not on the 'destroy' branch, skipping terraform destroy."
+    fi
+  env:
+  - 'BRANCH_NAME=${BRANCH_NAME}'
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
+availableSecrets:
+  secretManager:
+  - versionName: projects/<project_id_with_numbers>/secrets/<github-token-secret-name>/versions/latest
+    env: 'SSH_KEY'
+options:
+  logging: CLOUD_LOGGING_ONLY

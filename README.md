@@ -95,6 +95,12 @@ The documentation site is built using [MkDocs](https://www.mkdocs.org/) with the
     ```
     The site will be available at `http://127.0.0.1:8000/`.
 
+## Infrastructure Deployment
+
+The infrastructure for the Agent Network System can be deployed using the provided Terraform configuration. This setup will create a new GCP project and configure all the necessary services.
+
+For detailed instructions on how to deploy the infrastructure, please refer to the [Terraform Setup Guide](terraform/README.md).
+
 ## License
 
 The Agent Network System (ANS) Specification is licensed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for details.

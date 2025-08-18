@@ -8,82 +8,39 @@ To build and push a Docker image, use the `gcloud builds submit` command with th
 
 **Prerequisites:**
 
-* The `gcloud` CLI must be installed and authenticated to your GCP project.
-* An Artifact Registry repository must be created in your GCP project (this is typically handled by the Terraform configuration).
+*   The `gcloud` CLI must be installed and authenticated to your GCP project.
+*   An Artifact Registry repository must be created in your GCP project (this is typically handled by the Terraform configuration).
 
 **Command:**
 
 ```bash
-```bash
-gcloud builds submit --config image-build/cloudbuild.yaml . --substitutions=_PROJECT_ID=your-project-id,_LOCATION=your-location,_REPOSITORY=your-repo,_IMAGE_NAME=your-image-name --gcs-source-staging-dir=gs://ans-${var.project_id}-cloudbuild/source
-```
+gcloud builds submit --config image-build/cloudbuild.yaml . --substitutions=_PROJECT_ID=[YOUR_PROJECT_ID],_LOCATION=[YOUR_ARTIFACT_REGISTRY_REGION],_REPOSITORY=[YOUR_ARTIFACT_REGISTRY_REPO],_IMAGE_NAME=[YOUR_IMAGE_NAME] --gcs-source-staging-dir=gs://[YOUR_SOURCE_BUCKET]/source
 ```
 
 **Parameters:**
 
-* `_PROJECT_ID`: Your Google Cloud Project ID. # from terreaform/terraform.tfvars `project_id`
-* `_LOCATION`: The region where your Artifact Registry repository is located (e.g., `us-central1`).
-* `_REPOSITORY`: The name of your Artifact Registry repository (e.g., `ans-register`).
-* `_IMAGE_NAME`: The desired name for your Docker image (e.g., `backend`).
-
-**Example:**
-
-```bash
-gcloud builds submit --config image-build/cloudbuild.yaml . --substitutions=_PROJECT_ID=my-gcp-project,_LOCATION=us-central1,_REPOSITORY=ans-register,_IMAGE_NAME=backend --gcs-source-staging-dir=gs://ans-<my-gcp-project>-cloudbuild/source
-```
+*   `_PROJECT_ID`: Your Google Cloud Project ID.
+*   `_LOCATION`: The region where your Artifact Registry repository is located (e.g., `us-central1`).
+*   `_REPOSITORY`: The name of your Artifact Registry repository (e.g., `ans-register`).
+*   `_IMAGE_NAME`: The desired name for your Docker image (e.g., `backend`).
+*   `[YOUR_SOURCE_BUCKET]`: The name of the GCS bucket for Cloud Build to use for staging source code.
 
 This command will build the Docker image from the `backend` directory (relative to the project root) and push it to the specified Artifact Registry repository.
 
 ## Automated Image Building (Cloud Build Trigger)
 
 For automated builds, a Cloud Build Trigger has been configured in `terraform/main.tf`.
-This trigger automatically builds and pushes a new Docker image whenever changes are pushed to the `main` branch of the repository.
+This trigger automatically builds and pushes a new Docker image whenever changes are pushed to a branch matching the `^image-build*` pattern.
 
 **Connecting Your Repository:**
-For the Cloud Build Trigger to work, it needs to be connected to your source code repository (e.g., GitHub).
-1.  Go to the Google Cloud Console: `Cloud Build` -> `Triggers`.
-2.  Click `CONNECT REPOSITORY` or `MANAGE REPOSITORIES`.
-3.  Follow the prompts to connect to your source host (e.g., GitHub) and select your repository (`ans`).
-
-**Important Note for Developers:**
-If your repository is not named `ans`, you must update the `repo_name` field in the `google_cloudbuild_trigger` resource within `terraform/main.tf` to match your repository's name.
+For the Cloud Build Trigger to work, it needs to be connected to your source code repository (e.g., GitHub). See the [Terraform Setup Guide](./terraform/README.md) for more details on the required permissions and setup.
 
 ## Local Setup for Image Building
 
 To build and push Docker images from your local machine, you need to set up your `gcloud` environment to use a service account with the necessary permissions.
 
-**1. Create a Service Account Key for the Default Compute Service Account:**
+1.  **Create and Activate a Service Account:**
+    Follow the instructions in the [Terraform Setup Guide](./terraform/README.md) to create and activate a service account with the appropriate IAM roles for interacting with Artifact Registry and Cloud Build.
 
-It is recommended to create a dedicated service account key for local development.
-
-*   Go to the Google Cloud Console: `IAM & Admin` -> `Service Accounts`.
-*   Find the **Default Compute Service Account** (it typically looks like `your-project-number-compute@developer.gserviceaccount.com`).
-*   Click on the service account, then navigate to the `Keys` tab.
-*   Click `ADD KEY` -> `Create new key` -> `JSON` -> `CREATE`.
-*   Save the downloaded JSON key file to a secure location on your local machine (e.g., `~/gcp-keys/my-project-compute-sa.json`). **Keep this file secure and do not commit it to version control.**
-
-**2. Activate the Service Account:**
-
-Use the `gcloud auth activate-service-account` command to activate the service account using the downloaded key file.
-
-```bash
-gcloud auth activate-service-account --key-file="PATH_TO_YOUR_KEY_FILE.json"
-```
-
-Replace `PATH_TO_YOUR_KEY_FILE.json` with the actual path to your downloaded JSON key file. For example:
-
-```bash
-gcloud auth activate-service-account --key-file="~/gcp-keys/my-project-compute-sa.json"
-```
-
-You should see a confirmation message like: `Activated service account credentials for: [your-project-number-compute@developer.gserviceaccount.com]`
-
-**3. Run the Docker Image Build:**
-
-Once the service account is activated, you can run the `gcloud builds submit` command from your project's root directory.
-
-```bash
-gcloud builds submit --config image-build/cloudbuild.yaml . --substitutions=_PROJECT_ID=your-project-id,_LOCATION=your-location,_REPOSITORY=your-repo,_IMAGE_NAME=ans-register --gcs-source-staging-dir=gs://ans-${var.project_id}-cloudbuild/source
-```
-
-Remember to replace the placeholders (`your-project-id`, `your-location`, `your-repo`) with your actual project details.
+2.  **Run the Docker Image Build:**
+    Once the service account is activated, you can run the `gcloud builds submit` command from your project's root directory, replacing the placeholder values with your project details.

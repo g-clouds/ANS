@@ -1,23 +1,22 @@
-# Tests
+# Demonstrations & Tests
 
-This directory contains the tests for the ANS Client JavaScript SDK.
+This directory contains scripts that demonstrate and test the functionality of the Agent Network System (ANS).
 
-## Running the Tests
+## Running a Test
 
-To run the tests, you will need to have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
+Each numbered subdirectory (e.g., `00001`, `00003`) contains a self-contained test case. To run a specific test, navigate into its directory, install its dependencies, and run the start script.
 
-### Frontend Tests
+For example, to run Test #00001:
 
-To run the frontend tests, run the following command from the root directory of the project:
+```bash
+# Navigate to the test directory
+cd tests/00001
 
+# Install test-specific dependencies
+npm install
+
+# Run the test
+npm start
 ```
-npm test
-```
 
-### Backend Tests
-
-To run the backend tests, navigate to the `cloud-run-fns` directory and run the following command:
-
-```
-npm test
-```
+Each test directory contains its own `README.md` with more specific details about its purpose.

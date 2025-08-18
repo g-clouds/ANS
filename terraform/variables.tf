@@ -43,3 +43,9 @@ variable "subnet_cidr" {
   type        = string
   default     = "10.0.0.0/24"
 }
+
+variable "cloud_run_service_name" {
+  description = "The name of the Cloud Run service."
+  type        = string
+  default     = "ans-register"
+}

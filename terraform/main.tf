@@ -160,3 +160,159 @@ resource "google_project_iam_member" "cloud_run_service_account_iam" {
   role    = "roles/run.invoker"
   member  = "serviceAccount:${google_service_account.cloud_run_service_account.email}"
 }
+
+resource "google_project_iam_member" "cloud_run_sa_datastore_user" {
+  project = google_project.project.project_id
+  role    = "roles/datastore.user"
+  member  = "serviceAccount:${google_service_account.cloud_run_service_account.email}"
+}
+
+resource "google_project_iam_member" "cloud_run_sa_pubsub_publisher" {
+  project = google_project.project.project_id
+  role    = "roles/pubsub.publisher"
+  member  = "serviceAccount:${google_service_account.cloud_run_service_account.email}"
+}
+
+resource "google_project_service" "artifact_registry" {
+  provider = google-beta.no_user_project_override
+  project  = google_project.project.project_id
+  service  = "artifactregistry.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "pubsub_api" {
+  provider = google-beta.no_user_project_override
+  project  = google_project.project.project_id
+  service  = "pubsub.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_service_account" "cloud_build_sa" {
+  project      = google_project.project.project_id
+  account_id   = "cloud-build-sa"
+  display_name = "Cloud Build Service Account"
+  lifecycle {
+    prevent_destroy = false
+  }
+}
+
+resource "google_project_iam_member" "cloud_build_sa_roles" {
+  for_each = toset([
+    "roles/artifactregistry.writer",
+    "roles/cloudbuild.builds.builder",
+  ])
+  project  = google_project.project.project_id
+  role     = each.key
+  member   = "serviceAccount:${google_service_account.cloud_build_sa.email}"
+}
+
+resource "google_project_iam_member" "default_cloud_build_sa_artifact_writer" {
+  project = google_project.project.project_id
+  role    = "roles/artifactregistry.writer"
+  member  = "serviceAccount:${google_project.project.number}@cloudbuild.gserviceaccount.com"
+}
+
+resource "google_project_iam_member" "cloud_build_sa_storage_admin" {
+  project = google_project.project.project_id
+  role    = "roles/storage.objectAdmin"
+  member  = "serviceAccount:${google_service_account.cloud_build_sa.email}"
+}
+
+resource "google_artifact_registry_repository" "backend_repo" {
+  provider      = google-beta
+  project       = google_project.project.project_id
+  location      = var.region
+  repository_id = var.cloud_run_service_name
+  description   = "Repository for the backend service"
+  format        = "DOCKER"
+  depends_on = [google_project_service.artifact_registry]
+}
+
+resource "google_storage_bucket" "cloudbuild_source_bucket" {
+  project       = google_project.project.project_id
+  name          = "ans-${var.project_id}-cloudbuild"
+  location      = "US" # Multi-region for Cloud Build source
+  storage_class = "STANDARD"
+  uniform_bucket_level_access = true
+  force_destroy = true # For easier cleanup during development
+
+  depends_on = [google_project_service.project_services]
+}
+
+resource "google_pubsub_topic" "ans_sync_topic" {
+  project = google_project.project.project_id
+  name    = "ans-sync"
+  depends_on = [google_project_service.pubsub_api]
+}
+
+resource "google_cloud_run_v2_service" "backend_service" {
+  provider    = google-beta
+  project     = google_project.project.project_id
+  name        = var.cloud_run_service_name
+  location    = var.region
+  description = "Backend service for the ANS project"
+
+  template {
+    service_account = google_service_account.cloud_run_service_account.email
+    containers {
+      image = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.backend_repo.repository_id}/ans-register:latest"
+      ports {
+        container_port = 8080
+      }
+    }
+  }
+
+  ingress = "INGRESS_TRAFFIC_ALL"
+
+  traffic {
+    type = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
+    percent         = 100
+  }
+
+  depends_on = [
+    google_project_service.project_services,
+    google_artifact_registry_repository.backend_repo,
+  ]
+}
+
+resource "google_cloud_run_service_iam_member" "backend_service_invoker" {
+  provider = google-beta
+  project  = google_project.project.project_id
+  location = google_cloud_run_v2_service.backend_service.location
+  service  = google_cloud_run_v2_service.backend_service.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+}
+
+resource "google_cloudbuild_trigger" "backend_image_trigger" {
+  project     = google_project.project.project_id
+  name        = "backend-image-build-trigger"
+  description = "Triggers a Cloud Build to build and push the backend Docker image."
+  location    = "global" # Cloud Build Triggers are global
+
+  trigger_template {
+    branch_name = "^image-build*" # Trigger on push to ^image-build* branch
+    repo_name   = "ans"  # Assuming your GitHub repo is named 'ans'
+    dir         = "."    # Root of the repository
+  }
+
+  filename = "image-build/cloudbuild.yaml" # Path to your Cloud Build config file
+
+  substitutions = {
+    _PROJECT_ID = google_project.project.project_id
+    _LOCATION   = var.region
+    _REPOSITORY = google_artifact_registry_repository.backend_repo.repository_id
+    _IMAGE_NAME = "ans-register" # The name of your Docker image
+  }
+
+  service_account = google_service_account.cloud_build_sa.id # Use the custom Cloud Build SA
+
+  depends_on = [
+    google_project_service.artifact_registry,
+    google_service_account.cloud_build_sa,
+    google_project_iam_member.cloud_build_sa_roles,
+    google_project_iam_member.cloud_build_sa_storage_admin,
+  ]
+}
+
+

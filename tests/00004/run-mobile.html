@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Test #00004 Mobile Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <style>
+    html,body{margin:0;height:100%;background:#000;color:#0f0;
+             font-family:Courier New,monospace;font-size:clamp(18px,5vw,40px);
+             white-space:pre-wrap;word-break:break-all;overflow-wrap:break-word}
+    #log{padding:4vw;box-sizing:border-box;height:100%;overflow-y:auto}
+  </style>
+</head>
+<body>
+  <div id="log"></div>
+<script type="module">
+  const log = document.getElementById('log');
+  const append = txt => { log.textContent += txt; log.scrollTop = log.scrollHeight; };
+
+  // Spawn the real script
+  const socket = new WebSocket('ws://localhost:8081');
+  socket.onopen = () => socket.send('start');
+  socket.onmessage = e => append(e.data);
+</script>
+</body>
+</html>

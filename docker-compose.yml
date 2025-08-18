@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    ports: ["8080:8080"]
+    environment:
+      - FIRESTORE_EMULATOR_HOST=firestore:8080
+  firestore:
+    image: google/cloud-sdk:emulators
+    command: gcloud beta emulators firestore start --host-port=0.0.0.0:8080
+  console:
+    build: ./frontend
+    ports: ["3000:3000"]

@@ -47,3 +47,10 @@ output "firestore_database_path" {
   description = "Fully-qualified Firestore database path (useful in gcloud / client libraries)."
   value       = "projects/${google_project.project.project_id}/databases/${google_firestore_database.database.name}"
 }
+
+output "cloud_run_service_url" {
+  description = "The URL of the Cloud Run service."
+  value       = google_cloud_run_v2_service.backend_service.uri
+}
+
+

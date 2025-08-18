@@ -171,7 +171,7 @@ The Java SDK provides a client library to interact with the ANS backend for agen
 
 *   **Run the application:**
     ```bash
-    java -jar target/ans-java-sdk-1.0-SNAPSHOT-jar-with-dependencies.jar
+    java -jar target/sdk-java-0.0.2-jar-with-dependencies.jar
     ```
     This will execute the `Main` class, which attempts to register a sample agent with your deployed Cloud Run service.
 

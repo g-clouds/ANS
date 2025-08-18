@@ -1,20 +1,50 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.ans.sdk</groupId>
-  <artifactId>ans-java-sdk</artifactId>
+
+  <groupId>io.github.ans-project</groupId>
+  <artifactId>sdk-java</artifactId>
+  <version>0.0.2</version>
   <packaging>jar</packaging>
-  <version>0.0.1</version>
-  <name>ans-java-sdk</name>
-  <url>http://maven.apache.org</url>
+
+  <name>ANS Java SDK</name>
+  <description>Client SDK for the Agent Network System (ANS) for Java applications.</description>
+  <url>https://github.com/g-clouds/ANS</url>
+
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>gLabs</name>
+      <organization>g-clouds</organization>
+      <organizationUrl>https://www.gclouds.co.uk/ans</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/g-clouds/ANS.git</connection>
+    <developerConnection>scm:git:ssh://github.com:g-clouds/ANS.git</developerConnection>
+    <url>https://github.com/g-clouds/ANS/tree/main</url>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub ANS project Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/g-clouds/ANS</url>
+    </repository>
+  </distributionManagement>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
   </properties>
-
-  
 
   <dependencies>
     <!-- OkHttp for HTTP requests -->

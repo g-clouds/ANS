@@ -4,6 +4,15 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/g-clouds/ans?style=flat-square)](https://github.com/g-clouds/ans/releases/latest)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 
+## Packages
+
+This repository contains the source code for the following published packages:
+
+[![npm version](https://badge.fury.io/js/%40ans-project%2Fsdk-js.svg)](https://www.npmjs.com/package/@ans-project/sdk-js)
+[![Maven Package](https://img.shields.io/badge/Maven-sdk--java-blue)](https://github.com/g-clouds/ANS/packages/2623395)
+
+---
+
 An open specification for a foundational hybrid architecture enabling secure discovery, multi-level trust, and confidential verification for AI agent ecosystems. ANS provides the critical infrastructure for agents to find and establish trust with each other, complementing a wide range of agent communication protocols like Google's A2A, IBM's ACP, the Model Context Protocol (MCP), and future interoperability standards.
 
 The Agent Network System (ANS) addresses a fundamental need as AI agents proliferate: a reliable and secure way for agents to discover, verify, and connect. While various protocols define *how* agents communicate, ANS defines the underlying network services that make such communication scalable and trustworthy across diverse organizational and technical boundaries.

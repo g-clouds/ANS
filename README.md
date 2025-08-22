@@ -4,18 +4,44 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/g-clouds/ans?style=flat-square)](https://github.com/g-clouds/ans/releases/latest)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 
-## Packages
-
-This repository contains the source code for the following published packages:
-
-[![npm version](https://badge.fury.io/js/%40ans-project%2Fsdk-js.svg)](https://www.npmjs.com/package/@ans-project/sdk-js)
-[![Maven Package](https://img.shields.io/badge/Maven-sdk--java-blue)](https://github.com/g-clouds/ANS/packages/2623395)
-
----
-
 An open specification for a foundational hybrid architecture enabling secure discovery, multi-level trust, and confidential verification for AI agent ecosystems. ANS provides the critical infrastructure for agents to find and establish trust with each other, complementing a wide range of agent communication protocols like Google's A2A, IBM's ACP, the Model Context Protocol (MCP), and future interoperability standards.
 
 The Agent Network System (ANS) addresses a fundamental need as AI agents proliferate: a reliable and secure way for agents to discover, verify, and connect. While various protocols define *how* agents communicate, ANS defines the underlying network services that make such communication scalable and trustworthy across diverse organizational and technical boundaries.
+
+## Registering New Agents
+For Agent developers to register their AI agents while they are building their AI agents. The following SDK packages are publicly available.
+
+### JavaScript/TypeScript SDK (sdk-js)
+[![npm version](https://badge.fury.io/js/%40ans-project%2Fsdk-js.svg)](https://www.npmjs.com/package/@ans-project/sdk-js)
+
+Install the package from the npm public repo:
+```bash
+npm install @ans-project/sdk-js
+```
+
+The JavaScript/TypeScript SDK provides a client library to interact with the ANS backend for agent registration.
+
+### Java SDK (sdk-java)
+[![Maven Package](https://img.shields.io/badge/Maven-sdk--java-blue)](https://github.com/g-clouds/ANS/packages/2623395)
+
+Include the Maven package in your project's `pom.xml`.
+
+Install 1/2: Add this to pom.xml:
+
+```java
+<dependency>
+  <groupId>io.github.ans-project</groupId>
+  <artifactId>sdk-java</artifactId>
+  <version>0.0.2</version>
+</dependency>
+```
+Install 2/2: Run via command line
+
+```bash
+    mvn install
+```
+
+---
 
 **ANS enables agents to:**
 
@@ -83,27 +109,6 @@ The ANS specification is an evolving standard. Key areas for future work include
 
 (Refer to Section 11: Milestone-Driven Roadmap in the full specification for more details.)
 
-## Building Locally
-
-The documentation site is built using [MkDocs](https://www.mkdocs.org/) with the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme.
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/g-clouds/ANS.git
-   cd ans
-   ```
-2. **Install dependencies:**
-   (Ensure you have Python and pip installed)
-   ```bash
-   pip install mkdocs mkdocs-material pymdown-extensions
-   ```
-3. **Serve the site:**
-   ```bash
-   mkdocs serve
-   ```
-
-   The site will be available at `http://127.0.0.1:8000/`.
-
 ## Infrastructure Deployment
 
 The infrastructure for the Agent Network System can be deployed using the provided Terraform configuration. This setup will create a new GCP project and configure all the necessary services.
@@ -153,29 +158,25 @@ After the Docker image is pushed, deploy the backend as a Cloud Run service.
 *   **Deploy Service:**
     *   Commit the changes to `terraform/main.tf` (if not already committed). This will trigger the Cloud Build pipeline again, which will deploy the Cloud Run service.
 
-### 4. Java SDK (Client Library)
+## Document update
+The documentation site is built using [MkDocs](https://www.mkdocs.org/) with the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme.
 
-The Java SDK provides a client library to interact with the ANS backend for agent registration.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/g-clouds/ANS.git
+   cd ans
+   ```
+2. **Install dependencies:**
+   (Ensure you have Python and pip installed)
+   ```bash
+   pip install mkdocs mkdocs-material pymdown-extensions
+   ```
+3. **Serve the site:**
+   ```bash
+   mkdocs serve
+   ```
 
-*   **Navigate to the SDK directory:**
-    ```bash
-    cd sdk/sdk-java
-    ```
-
-*   **Build the project using Maven:**
-    Ensure you have Maven installed and configured in your system's PATH.
-    ```bash
-    mvn clean install
-    ```
-    This command will compile the code and package the application into a self-contained JAR file (`ans-java-sdk-1.0-SNAPSHOT-jar-with-dependencies.jar`) in the `target` directory.
-
-*   **Run the application:**
-    ```bash
-    java -jar target/sdk-java-0.0.2-jar-with-dependencies.jar
-    ```
-    This will execute the `Main` class, which attempts to register a sample agent with your deployed Cloud Run service.
-
-    **Important:** Remember to replace the `cloudRunUrl` in `sdk/sdk-java/src/main/java/com/ans/sdk/Main.java` with your actual Cloud Run service URL if it's different from the example.
+   The site will be available at `http://127.0.0.1:8000/`.
 
 ## License
 

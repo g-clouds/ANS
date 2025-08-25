@@ -4,7 +4,7 @@
 
   <groupId>io.github.ans-project</groupId>
   <artifactId>sdk-java</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
   <packaging>jar</packaging>
 
   <name>ANS Java SDK</name>
@@ -79,13 +79,13 @@
     
     <dependency>
       <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk15on</artifactId>
-      <version>1.70</version>
+      <artifactId>bcprov-jdk18on</artifactId>
+      <version>1.81</version>
     </dependency>
     <dependency>
       <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpkix-jdk15on</artifactId>
-      <version>1.70</version>
+      <artifactId>bcpkix-jdk18on</artifactId>
+      <version>1.81</version>
     </dependency>
   </dependencies>
 

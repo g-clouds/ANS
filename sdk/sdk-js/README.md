@@ -4,15 +4,41 @@ This guide provides instructions for end-users on how to register a new agent wi
 
 ## 1. Prerequisites
 
-*   **Node.js:** Version 16 or higher.
-*   **npm:** Node Package Manager (comes with Node.js).
+* **Node.js:** Version 16 or higher.
+* **npm:** Node Package Manager (comes with Node.js).
 
 ## 2. Installation
 
 This package is published to npm, you can install it using:
 
 ```bash
-npm install @ans-project/sdk-js
+npm install -g @ans-project/sdk-js
+```
+
+### Using the `anslookup` Command-Line Tool
+
+The SDK includes a convenient command-line tool, `anslookup`, for quickly querying the Agent Network System.
+
+To use it, you can install the package globally:
+
+```bash
+npm install -g @ans-project/sdk-js
+```
+
+Once installed, you can run `anslookup` directly from your terminal:
+
+```bash
+# Get help and see all options
+anslookup --help
+
+# Lookup an agent by its ID
+anslookup translator.ans
+
+# Lookup agents by name and trust level
+anslookup --query "Nia" --trust-level "provisional"
+
+# Lookup agents by capabilities (use quotes for capabilities with spaces)
+anslookup --capabilities "sales,lead generation"
 ```
 
 ## 3. Registering a New Agent
@@ -66,24 +92,25 @@ registerNewAgent();
 
 The Node.js SDK generates a unique cryptographic key pair (a public key and a private key) for your agent during the registration process. **Securely managing these keys is paramount.**
 
-*   **Private Key:**
-    *   **Purpose:** The private key is used to generate the `signature` that proves your agent's ownership.
-    *   **Security:** Your private key **MUST be kept absolutely secret and secure**. If your private key is compromised, someone else could impersonate your agent.
-    *   **Storage:**
-        *   **NEVER** store private keys directly in your code, commit them to version control (like Git), or expose them in public logs.
-        *   For development, you might temporarily store them in secure environment variables or local configuration files (ensure these are `.gitignore`d).
-        *   For production, consider using dedicated secure storage solutions like:
-            *   **Google Cloud Secret Manager**
-            *   Hardware Security Modules (HSMs)
-            *   Key Management Systems (KMS)
-    *   **The current example generates a new key pair every time it runs.** For a real application, you would generate a key pair once, securely store the private key, and reuse it for subsequent registrations or updates of the same agent.
+* **Private Key:**
 
-*   **Public Key:**
-    *   **Purpose:** The public key is part of your agent's identity and is sent to the ANS backend. It allows others to verify signatures made by your private key.
-    *   **Security:** Public keys are, by definition, public. They do not need to be kept secret.
+  * **Purpose:** The private key is used to generate the `signature` that proves your agent's ownership.
+  * **Security:** Your private key **MUST be kept absolutely secret and secure**. If your private key is compromised, someone else could impersonate your agent.
+  * **Storage:**
+    * **NEVER** store private keys directly in your code, commit them to version control (like Git), or expose them in public logs.
+    * For development, you might temporarily store them in secure environment variables or local configuration files (ensure these are `.gitignore`d).
+    * For production, consider using dedicated secure storage solutions like:
+      * **Google Cloud Secret Manager**
+      * Hardware Security Modules (HSMs)
+      * Key Management Systems (KMS)
+  * **The current example generates a new key pair every time it runs.** For a real application, you would generate a key pair once, securely store the private key, and reuse it for subsequent registrations or updates of the same agent.
+* **Public Key:**
 
-*   **Signature:**
-    *   **Purpose:** The signature is a one-time proof of ownership for a specific registration payload. It is sent to the backend for verification.
-    *   **Security:** The signature itself is not sensitive after it has been used and verified. Its security relies entirely on the secrecy of the private key used to generate it.
+  * **Purpose:** The public key is part of your agent's identity and is sent to the ANS backend. It allows others to verify signatures made by your private key.
+  * **Security:** Public keys are, by definition, public. They do not need to be kept secret.
+* **Signature:**
+
+  * **Purpose:** The signature is a one-time proof of ownership for a specific registration payload. It is sent to the backend for verification.
+  * **Security:** The signature itself is not sensitive after it has been used and verified. Its security relies entirely on the secrecy of the private key used to generate it.
 
 **Remember: The security of your agent's identity hinges on the secrecy of its private key.**

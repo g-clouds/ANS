@@ -31,6 +31,11 @@ export class ANSClient {
     return res.data;
   }
 
+  async lookup(params: { query?: string; agent_id?: string; capabilities?: string[]; trust_level?: string; limit?: number; policy_requirements?: { verification_status?: string; capabilities?: string[]; }; }) {
+    const res = await this.api.get('/lookup', { params: params });
+    return res.data;
+  }
+
   static generateKeyPair() {
     const { publicKey, privateKey } = crypto.generateKeyPairSync('ec', { namedCurve: 'prime256v1' });
     return {

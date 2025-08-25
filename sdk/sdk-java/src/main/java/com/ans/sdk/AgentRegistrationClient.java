@@ -2,6 +2,7 @@ package com.ans.sdk;
 
 import com.ans.sdk.model.Agent;
 import com.ans.sdk.model.ProofOfOwnership;
+import com.ans.sdk.model.LookupResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 
@@ -43,9 +44,9 @@ public class AgentRegistrationClient {
         // Export private key to PEM format (PKCS#8)
         // This is a simplified export. For production, consider using Bouncy Castle for full PKCS#8 encoding
         // with proper headers and footers if not already handled by getEncoded()
-        return "-----BEGIN PRIVATE KEY-----\\n" +
+        return "-----BEGIN PRIVATE KEY-----" + "\n" +
                Base64.getMimeEncoder().encodeToString(privateKey.getEncoded()) +
-               "\\n-----END PRIVATE KEY-----";
+               "\n" + "-----END PRIVATE KEY-----";
     }
 
     public String signPayload(PrivateKey privateKey, Agent agentData) throws Exception {
@@ -77,6 +78,28 @@ public class AgentRegistrationClient {
                 throw new IOException("Unexpected code " + response + "\n" + response.body().string());
             }
             return response.body().string();
+        }
+    }
+
+    public LookupResponse lookup(Map<String, String> params) throws IOException {
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(cloudRunEndpoint + "/lookup").newBuilder();
+        if (params != null) {
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                urlBuilder.addQueryParameter(entry.getKey(), entry.getValue());
+            }
+        }
+        String url = urlBuilder.build().toString();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response + "\n" + response.body().string());
+            }
+            return objectMapper.readValue(response.body().string(), LookupResponse.class);
         }
     }
 

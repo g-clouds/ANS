@@ -8,20 +8,34 @@ An open specification for a foundational hybrid architecture enabling secure dis
 
 The Agent Network System (ANS) addresses a fundamental need as AI agents proliferate: a reliable and secure way for agents to discover, verify, and connect. While various protocols define *how* agents communicate, ANS defines the underlying network services that make such communication scalable and trustworthy across diverse organizational and technical boundaries.
 
+---
+
+**ANS enables agents to:**
+
+* **Discover** other agents by human-readable identifiers or capabilities, regardless of the underlying communication protocol they use.
+* **Verify** the identity, authenticity, and attested capabilities of other agents through multiple trust levels.
+* **Connect** with confidence, leveraging cryptographic proofs and (optionally) blockchain-based verification, before engaging in protocol-specific interactions.
+* **Maintain** data sovereignty and control over agent interactions.
+* **Operate** within a zero-trust security model.
+
 ## Registering New Agents
+
 For Agent developers to register their AI agents while they are building their AI agents. The following SDK packages are publicly available.
 
 ### JavaScript/TypeScript SDK (sdk-js)
+
 [![npm version](https://badge.fury.io/js/%40ans-project%2Fsdk-js.svg)](https://www.npmjs.com/package/@ans-project/sdk-js)
 
 Install the package from the npm public repo:
+
 ```bash
-npm install @ans-project/sdk-js
+npm install -g @ans-project/sdk-js
 ```
 
 The JavaScript/TypeScript SDK provides a client library to interact with the ANS backend for agent registration.
 
 ### Java SDK (sdk-java)
+
 [![Maven Package](https://img.shields.io/badge/Maven-sdk--java-blue)](https://github.com/g-clouds/ANS/packages/2623395)
 
 Include the Maven package in your project's `pom.xml`.
@@ -32,24 +46,47 @@ Install 1/2: Add this to pom.xml:
 <dependency>
   <groupId>io.github.ans-project</groupId>
   <artifactId>sdk-java</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
 </dependency>
 ```
+
 Install 2/2: Run via command line
 
 ```bash
     mvn install
 ```
 
----
+## `anslookup` CLI: The `nslookup` for AI Agents
 
-**ANS enables agents to:**
+The `anslookup` CLI is a powerful command-line tool for interacting with the Agent Network System. Just as `nslookup` is used to query the Domain Name System (DNS) for information about servers, `anslookup` allows you to query the ANS for information about registered AI agents. This tool is essential for increasing the accessibility and discoverability of AI agents, whether they are on a global, public network (like a centralized global registry for AI agents) or a private, internal ANS.
 
-* **Discover** other agents by human-readable identifiers or capabilities, regardless of the underlying communication protocol they use.
-* **Verify** the identity, authenticity, and attested capabilities of other agents through multiple trust levels.
-* **Connect** with confidence, leveraging cryptographic proofs and (optionally) blockchain-based verification, before engaging in protocol-specific interactions.
-* **Maintain** data sovereignty and control over agent interactions.
-* **Operate** within a zero-trust security model.
+
+**Installation:**
+
+```bash
+npm install -g @ans-project/sdk-js
+```
+
+**Usage:**
+
+```bash
+# Lookup an agent by its ID
+anslookup <agent_Id>
+anslookup translator.ans
+
+# Query for agents with specific attributes
+anslookup --query "sales-assistant" --capability "customer_support" --trust-level "verified"
+```
+
+**Options:**
+
+* `--query`: The name or keyword to search for.
+* `--capability`: A required capability of the agent.
+* `--trust-level`: The minimum trust level required (e.g., `verified`, `blockchain`).
+* `--limit`: The maximum number of results to return.
+* `--policy-requirements`: A JSON string with policy requirements.
+* `--endpoint`: The ANS network endpoint to use.
+
 
 ## Why ANS?
 
@@ -121,57 +158,61 @@ This guide provides step-by-step instructions to deploy and run the Agent Networ
 
 ### Prerequisites
 
-*   Google Cloud Platform (GCP) Account
-*   `gcloud` CLI installed and configured
-*   Terraform installed
-*   Git installed
+* Google Cloud Platform (GCP) Account
+* `gcloud` CLI installed and configured
+* Terraform installed
+* Git installed
 
 ### 1. GCP Project Setup (Terraform)
 
 This project uses Terraform to provision the necessary GCP infrastructure.
 
-*   **Configure Terraform Variables:**
-    *   Update `terraform/terraform.tfvars` with your GCP project details (`project_id`, `billing_account`, `org_id`).
-*   **Deploy Infrastructure:**
-    *   Commit your changes to trigger the Cloud Build pipeline defined in `terraform/cloudbuild.yaml`. This pipeline will automatically initialize Terraform and apply the configuration, creating:
-        *   A new GCP Project
-        *   Firestore Database
-        *   Artifact Registry Repository
-        *   Cloud Build Source Bucket
-        *   Required Service Accounts and IAM Permissions
+* **Configure Terraform Variables:**
+  * Update `terraform/terraform.tfvars` with your GCP project details (`project_id`, `billing_account`, `org_id`).
+* **Deploy Infrastructure:**
+  * Commit your changes to trigger the Cloud Build pipeline defined in `terraform/cloudbuild.yaml`. This pipeline will automatically initialize Terraform and apply the configuration, creating:
+    * A new GCP Project
+    * Firestore Database
+    * Artifact Registry Repository
+    * Cloud Build Source Bucket
+    * Required Service Accounts and IAM Permissions
 
 ### 2. Build and Push Docker Image
 
 Once the Terraform infrastructure is deployed, build and push the backend Docker image to Artifact Registry.
 
-*   **Local Setup:**
-    *   Follow the instructions in `image-build/README.md` to set up your local environment for building Docker images, including activating the appropriate service account.
-*   **Build and Push:**
-    *   Run the `gcloud builds submit` command as detailed in `image-build/README.md`. This will build the Docker image from the `backend` directory and push it to your Artifact Registry.
+* **Local Setup:**
+  * Follow the instructions in `image-build/README.md` to set up your local environment for building Docker images, including activating the appropriate service account.
+* **Build and Push:**
+  * Run the `gcloud builds submit` command as detailed in `image-build/README.md`. This will build the Docker image from the `backend` directory and push it to your Artifact Registry.
 
 ### 3. Deploy Cloud Run Service
 
 After the Docker image is pushed, deploy the backend as a Cloud Run service.
 
-*   **Update Terraform:**
-    *   The Cloud Run service definition has been added to `terraform/main.tf`.
-*   **Deploy Service:**
-    *   Commit the changes to `terraform/main.tf` (if not already committed). This will trigger the Cloud Build pipeline again, which will deploy the Cloud Run service.
+* **Update Terraform:**
+  * The Cloud Run service definition has been added to `terraform/main.tf`.
+* **Deploy Service:**
+  * Commit the changes to `terraform/main.tf` (if not already committed). This will trigger the Cloud Build pipeline again, which will deploy the Cloud Run service.
 
 ## Document update
+
 The documentation site is built using [MkDocs](https://www.mkdocs.org/) with the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme.
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/g-clouds/ANS.git
    cd ans
    ```
 2. **Install dependencies:**
    (Ensure you have Python and pip installed)
+
    ```bash
    pip install mkdocs mkdocs-material pymdown-extensions
    ```
 3. **Serve the site:**
+
    ```bash
    mkdocs serve
    ```

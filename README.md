@@ -10,6 +10,14 @@ The Agent Network System (ANS) addresses a fundamental need as AI agents prolife
 
 ---
 
+## Demonstrations and Use Cases
+
+Explore our YouTube playlist to see the Agent Network System in action, including tutorials, demonstrations of core features, and recordings of our community tests.
+
+*   **[ANS Features & Testing Playlist](https://www.youtube.com/playlist?list=PLkSabrhCEOUc4RJyT5mGxEQpwhMlkOoQR)**
+
+---
+
 **ANS enables agents to:**
 
 * **Discover** other agents by human-readable identifiers or capabilities, regardless of the underlying communication protocol they use.

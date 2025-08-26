@@ -19,7 +19,13 @@ function checkPolicyCompatibility(agent, policy_requirements) {
 
 
 export async function performLookup(params) {
-  const { query, capabilities, trust_level, limit = 10, policy_requirements, agent_id } = params;
+  // Filter out empty string, null, and undefined parameters from params
+  const filteredParams = Object.fromEntries(
+    Object.entries(params).filter(([_, value]) => value !== '' && value !== undefined && value !== null)
+  );
+
+  const { query, trust_level, limit = 10, policy_requirements, agent_id } = filteredParams;
+  let capabilities = filteredParams.capabilities;
   let q = db.collection('agents');
 
   if (agent_id) {
@@ -35,8 +41,23 @@ export async function performLookup(params) {
     q = q.where('name', '>=', query).where('name', '<=', query + '\uf8ff');
   }
 
-  if (capabilities) {
-    q = q.where('capabilities', 'array-contains-any', capabilities);
+  // Normalize capabilities so both comma-separated strings and array formats work
+  let cleanedCapabilities = [];
+  if (Array.isArray(capabilities)) {
+    // If it's already an array, flatten and split any comma-separated values inside
+    cleanedCapabilities = capabilities
+      .flatMap(cap => (typeof cap === 'string' ? cap.split(',') : []))
+      .map(cap => cap.trim())
+      .filter(cap => cap !== '');
+  } else if (typeof capabilities === 'string' && capabilities.trim() !== '') {
+    // If it's a single string, allow comma-separated values
+    cleanedCapabilities = capabilities.split(',')
+      .map(cap => cap.trim())
+      .filter(cap => cap !== '');
+  }
+
+  if (cleanedCapabilities.length > 0) {
+    q = q.where('capabilities', 'array-contains-any', cleanedCapabilities);
   }
 
   // Apply policy verification_status in query if possible, as it's an exact match and more efficient.
@@ -44,14 +65,20 @@ export async function performLookup(params) {
       q = q.where('verification_status', '==', policy_requirements.verification_status);
   }
 
-  const snap = await q.limit(Number(limit)).get();
+  let actualLimit = Number(limit);
+  if (isNaN(actualLimit) || actualLimit <= 0) {
+    actualLimit = 10; // Default limit
+  }
+  const snap = await q.limit(actualLimit).get();
 
   const results = snap.docs
     .map(d => d.data())
     .filter(agent => {
       // In-memory filtering for the main capabilities query (AND logic)
-      if (capabilities && capabilities.length > 0) {
-        if (!capabilities.every(cap => agent.capabilities?.includes(cap))) {
+      if (cleanedCapabilities.length > 0) {
+        // Ensure agent.capabilities is an array before checking includes
+        const agentCaps = Array.isArray(agent.capabilities) ? agent.capabilities : [];
+        if (!cleanedCapabilities.every(cap => agentCaps.includes(cap))) {
           return false;
         }
       }
@@ -83,7 +110,7 @@ export async function performLookup(params) {
     status: 'success',
     results,
     total_matches: results.length, // Reflects the count after in-memory filtering
-    next_page_token: snap.docs.length === Number(limit) ? snap.docs.at(-1).id : null,
+    next_page_token: snap.docs.length === actualLimit ? snap.docs.at(-1).id : null,
   };
 }
 

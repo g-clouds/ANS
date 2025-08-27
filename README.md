@@ -9,6 +9,15 @@ An open specification for a foundational hybrid architecture enabling secure dis
 The Agent Network System (ANS) addresses a fundamental need as AI agents proliferate: a reliable and secure way for agents to discover, verify, and connect. While various protocols define *how* agents communicate, ANS defines the underlying network services that make such communication scalable and trustworthy across diverse organizational and technical boundaries.
 
 ---
+<a href="https://youtu.be/ow0WYNpu6IQ" target="_blank" rel="noopener noreferrer">
+    <img src="./docs/images/ans5.png"
+        alt="Watch the ANS Demo on YouTube"
+        width="560" />
+</a>
+
+[Watch the ANS Demo on YouTube](https://youtu.be/ow0WYNpu6IQ)
+
+---
 
 ## Demonstrations and Use Cases
 

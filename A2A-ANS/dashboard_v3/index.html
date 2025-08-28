@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A2A-ANS Live Dashboard v3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <style>
+        body {
+            background-image: url('ans-federated-distributed.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #e0e0e0;
+            font-family: 'Roboto', sans-serif;
+        }
+        .main-container {
+            background-color: rgba(18, 18, 18, 0.9); /* Semi-transparent dark background */
+            backdrop-filter: blur(8px); /* Frosted glass effect */
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+        }
+        .vis-network {
+            border: 1px solid #444;
+            border-radius: 8px;
+        }
+        .log-panel {
+            background-color: #1e1e1e;
+            border: 1px solid #444;
+        }
+        .log-panel .log-time { color: #fbbf24; }
+        .log-panel .log-info { color: #60a5fa; }
+        .log-panel .log-success { color: #4ade80; }
+        .log-panel .log-error { color: #f87171; }
+    </style>
+</head>
+<body class="p-4 lg:p-8">
+    <div class="main-container max-w-7xl mx-auto">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-blue-400">A2A-ANS Live Dashboard</h1>
+            <p class="text-lg text-gray-400">Real-time visualisation of agent collaboration.</p>
+            <p class="text-lg text-gray-400">2 independent AI agents are communicating via the Agent Network System (ANS)</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Visualizations -->
+        <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-5 gap-8">
+            <div class="bg-gray-900 p-6 rounded-lg shadow-lg md:col-span-4">
+                <h2 class="text-2xl font-bold mb-4 text-center">ANS Network</h2>
+                <div id="ans-network" class="h-96 w-full"></div>
+                <p id="ans-status" class="mt-4 text-center text-lg font-semibold text-blue-400">Network Idle</p>
+            </div>
+            <div class="bg-gray-900 p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-center">A2A Direct Link</h2>
+                <div id="a2a-network" class="h-96 w-full"></div>
+                <p id="a2a-status" class="mt-4 text-center text-lg font-semibold text-indigo-400">A2A Idle</p>
+            </div>
+        </div>
+
+        <!-- Agent Logs -->
+        <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-gray-900 p-6 rounded-lg shadow-lg">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-red-400">Partner Agent Logs</h2>
+                    <div id="partner-connection-status" class="text-sm font-semibold text-gray-500">Disconnected</div>
+                </div>
+                <div id="partner-logs" class="log-panel p-4 rounded-md overflow-y-auto text-sm h-96"></div>
+            </div>
+            <div class="bg-gray-900 p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold mb-4">User Conversation</h2>
+                <div id="conversation-logs" class="log-panel p-4 rounded-md overflow-y-auto text-sm h-96"></div>
+            </div>
+            <div class="bg-gray-900 p-6 rounded-lg shadow-lg">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-green-400">Primary Agent Internal Logs</h2>
+                    <div id="primary-connection-status" class="text-sm font-semibold text-gray-500">Disconnected</div>
+                </div>
+                <div id="primary-logs" class="log-panel p-4 rounded-md overflow-y-auto text-sm h-96"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM Elements ---
+            const ansStatus = document.getElementById('ans-status');
+            const a2aStatus = document.getElementById('a2a-status');
+            const primaryLogs = document.getElementById('primary-logs');
+            const partnerLogs = document.getElementById('partner-logs');
+            const conversationLogs = document.getElementById('conversation-logs');
+            const primaryConnectionStatus = document.getElementById('primary-connection-status');
+            const partnerConnectionStatus = document.getElementById('partner-connection-status');
+
+            // --- Network Visualization Setup ---
+            const ansContainer = document.getElementById('ans-network');
+            const a2aContainer = document.getElementById('a2a-network');
+
+            // ANS Network (Mesh) - Programmatically generate a large number of nodes
+            const ansNodes = new vis.DataSet();
+            const ansEdges = new vis.DataSet();
+
+            // Add The Nexus - the central hub
+            ansNodes.add({id: 1, label: 'ANS', color: '#f5b700', shape: 'star', font: {size: 25}, size: 40});
+
+            // Add Nia and Atlas specifically
+            ansNodes.add({id: 2, label: 'Primary Agent', color: '#34A853', size: 30});
+            ansNodes.add({id: 3, label: 'Partner Agent', color: '#EA4335', size: 30});
+            ansEdges.add({id: 'primary-ans', from: 2, to: 1});
+            ansEdges.add({id: 'partner-ans', from: 3, to: 1});
+
+            // Add a large number of generic agents
+            const numberOfAgents = 50;
+            for (let i = 4; i < numberOfAgents + 4; i++) {
+                ansNodes.add({
+                    id: i,
+                    label: `Agent`, // Keep label minimal for clarity
+                    color: '#4285F4',
+                    size: 15 
+                });
+                ansEdges.add({
+                    id: `agent${i-3}-ans`,
+                    from: i,
+                    to: 1
+                });
+            }
+
+            const ansData = { nodes: ansNodes, edges: ansEdges };
+            const ansOptions = {
+                physics: { 
+                    stabilization: true,
+                    barnesHut: {
+                        gravitationalConstant: -10000,
+                        springConstant: 0.05,
+                        springLength: 250
+                    }
+                },
+                interaction: { dragNodes: true, zoomView: true, dragView: true },
+                nodes: { font: { color: 'white' } },
+                edges: { color: { color: '#888', highlight: '#fff' } }
+            };
+            const ansNetwork = new vis.Network(ansContainer, ansData, ansOptions);
+
+            // A2A Network (Direct)
+            const a2aNodes = new vis.DataSet([
+                {id: 1, label: 'Primary Agent', color: '#34A853'},
+                {id: 2, label: 'Partner Agent', color: '#EA4335'},
+            ]);
+            const a2aEdges = new vis.DataSet([]); // No edge initially
+            const a2aData = { nodes: a2aNodes, edges: a2aEdges };
+            const a2aOptions = {
+                interaction: { dragNodes: false, zoomView: false, dragView: false },
+                nodes: { font: { color: 'white' } }
+            };
+            const a2aNetwork = new vis.Network(a2aContainer, a2aData, a2aOptions);
+
+            function logTo(logElement, type, message) {
+                const timestamp = new Date().toLocaleTimeString();
+                const logEntry = document.createElement('div');
+                logEntry.innerHTML = `<span class="log-time">[${timestamp}]</span> <span class="log-${type}">${message}</span>`;
+                logElement.appendChild(logEntry);
+                logElement.scrollTop = logElement.scrollHeight;
+            }
+
+            function logToConversation(logElement, message) {
+                const logEntry = document.createElement('div');
+                logEntry.classList.add('mb-2', 'whitespace-pre-wrap');
+
+                if (message.startsWith('USER:')) {
+                    logEntry.innerHTML = `<span class="font-bold text-blue-400">User:</span> <span class="text-gray-300">${message.substring(6)}</span>`;
+                } else if (message.startsWith('AGENT:')) {
+                    logEntry.innerHTML = `<span class="font-bold text-green-400">Agent:</span> <span class="text-gray-300">${message.substring(7)}</span>`;
+                } else {
+                    logEntry.textContent = message;
+                }
+
+                logElement.appendChild(logEntry);
+                logElement.scrollTop = logElement.scrollHeight;
+            }
+
+            function clearLogs() {
+                primaryLogs.innerHTML = '';
+                partnerLogs.innerHTML = '';
+                conversationLogs.innerHTML = '';
+            }
+
+            function flashAnsNetwork(logEntry) {
+                ansStatus.textContent = 'ANS Network Active';
+                
+                let edgeIdToFlash = null;
+
+                // Determine which edge to flash based on agent or message content
+                if (logEntry.agent === 'primary') {
+                    edgeIdToFlash = 'primary-ans';
+                } else if (logEntry.agent === 'partner') {
+                    edgeIdToFlash = 'partner-ans';
+                }
+
+                if (edgeIdToFlash) {
+                    // Flash the specific edge
+                    ansEdges.update([{ 
+                        id: edgeIdToFlash, 
+                        color: { color: '#00FF00', highlight: '#00FF00' }, // Electric Green
+                        width: 5 // Bolder line
+                    }]);
+
+                    setTimeout(() => {
+                        ansStatus.textContent = 'Network Idle';
+                        ansEdges.update([{ 
+                            id: edgeIdToFlash, 
+                            color: { color: '#888', highlight: '#fff' }, 
+                            width: 1 
+                        }]);
+                    }, 2000);
+                }
+            }
+
+            function flashA2ACommunication(direction) {
+                a2aStatus.textContent = 'A2A Communication Active';
+                
+                let edge = {
+                    id: 1,
+                    arrows: 'to',
+                    color: '#8ab4f8',
+                    width: 3 // Bolder line
+                };
+
+                if (direction === 'primary-to-partner') {
+                    edge.from = 1;
+                    edge.to = 2;
+                } else { // partner-to-primary
+                    edge.from = 2;
+                    edge.to = 1;
+                }
+
+                a2aEdges.add(edge);
+
+                setTimeout(() => {
+                    a2aStatus.textContent = 'A2A Idle';
+                    a2aEdges.remove(1);
+                }, 3000); // Increased delay
+            }
+
+            const eventSource = new EventSource('http://localhost:4000/events');
+
+            eventSource.onopen = () => {
+                clearLogs();
+                primaryConnectionStatus.textContent = 'Connected';
+                primaryConnectionStatus.classList.remove('text-gray-500', 'text-red-500');
+                primaryConnectionStatus.classList.add('text-green-500');
+                partnerConnectionStatus.textContent = 'Connected';
+                partnerConnectionStatus.classList.remove('text-gray-500', 'text-red-500');
+                partnerConnectionStatus.classList.add('text-green-500');
+            };
+
+            eventSource.onmessage = (event) => {
+                const logEntry = JSON.parse(event.data);
+
+                if (logEntry.message.includes('[ANS]')) {
+                    flashAnsNetwork(logEntry);
+                }
+
+                if (logEntry.message.includes('[A2A]')) {
+                    if (logEntry.agent === 'primary') {
+                        flashA2ACommunication('primary-to-partner');
+                    } else if (logEntry.agent === 'partner') {
+                        flashA2ACommunication('partner-to-primary');
+                    }
+                }
+
+                if (logEntry.agent === 'primary' && logEntry.type === 'conversation') {
+                    logToConversation(conversationLogs, logEntry.message);
+                } else if (logEntry.agent === 'primary') {
+                    logTo(primaryLogs, logEntry.type, logEntry.message);
+                } else if (logEntry.agent === 'partner') {
+                    logTo(partnerLogs, logEntry.type, logEntry.message);
+                } else if (logEntry.agent === 'system' && logEntry.message === 'clear') {
+                    clearLogs();
+                }
+            };
+
+            eventSource.onerror = () => {
+                primaryConnectionStatus.textContent = 'Connection Lost';
+                primaryConnectionStatus.classList.remove('text-green-500');
+                primaryConnectionStatus.classList.add('text-red-500');
+                partnerConnectionStatus.textContent = 'Connection Lost';
+                partnerConnectionStatus.classList.remove('text-green-500');
+                partnerConnectionStatus.classList.add('text-red-500');
+            };
+        });
+    </script>
+</body>
+</html>

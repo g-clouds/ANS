@@ -73,6 +73,19 @@ Install 2/2: Run via command line
     mvn install
 ```
 
+### Python SDK (sdk-python)
+
+[![PyPI version](https://badge.fury.io/py/ans-project-sdk.svg)](https://pypi.org/project/ans-project-sdk/)
+
+Install the package from PyPI:
+
+```bash
+pip install ans-project-sdk
+```
+
+The Python SDK provides a client library to interact with the ANS backend for agent registration.
+
+
 ## `anslookup` CLI: The `nslookup` for AI Agents
 
 The `anslookup` CLI is a powerful command-line tool for interacting with the Agent Network System. Just as `nslookup` is used to query the Domain Name System (DNS) for information about servers, `anslookup` allows you to query the ANS for information about registered AI agents. This tool is essential for increasing the accessibility and discoverability of AI agents, whether they are on a global, public network (like a centralized global registry for AI agents) or a private, internal ANS.
@@ -80,8 +93,20 @@ The `anslookup` CLI is a powerful command-line tool for interacting with the Age
 
 **Installation:**
 
+The `anslookup` CLI can be installed via npm (for JavaScript/TypeScript users) or pip (for Python users). Java users can run the CLI directly from the built JAR file.
+
 ```bash
 npm install -g @ans-project/sdk-js
+```
+
+```bash
+pip install ans-project-sdk
+```
+
+For Java users, after building the Java SDK (as described in the [Quick Start Guide](QUICK_START_GUIDE.md)), you can run the `anslookup` CLI directly from the generated JAR:
+
+```bash
+java -jar sdk/sdk-java/target/sdk-java-0.0.3-jar-with-dependencies.jar --help
 ```
 
 **Usage:**

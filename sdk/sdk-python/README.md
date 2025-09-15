@@ -50,7 +50,7 @@ except Exception as e:
 
 The SDK includes a command-line interface tool, `anslookup`, for quickly querying the Agent Network System.
 
-To use it, ensure the SDK is installed (e.g., `pip install ans-project-sdk`) 
+To use it, ensure the SDK is installed (e.g., `pip install ans-project-sdk`)
 
 ```bash
 # Get help and see all options
@@ -92,3 +92,9 @@ This will immediately raise a `ValueError` with a detailed message about the mis
 The `generate_key_pair` method returns a new public/private key pair in PEM format. **The private key must be stored securely and should not be checked into version control.**
 
 For production applications, use a secure secret management system like Google Secret Manager.
+
+## Changelog
+
+### 0.0.6 (2025-09-14)
+
+* **Fixed:** Resolved `ModuleNotFoundError` when importing `ans_project.sdk` after `pip install`. The package structure has been corrected to ensure `ans_project` is a top-level importable module.

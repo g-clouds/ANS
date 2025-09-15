@@ -93,18 +93,21 @@ The `anslookup` CLI is a powerful command-line tool for interacting with the Age
 
 **Installation:**
 
-The `anslookup` CLI can be installed via npm (for JavaScript/TypeScript users) or pip (for Python users). Java users can run the CLI directly from the built JAR file.
+The `anslookup` CLI is included with each of the ANS SDKs. You can install it using the package manager for your preferred language.
 
+**JavaScript/TypeScript (via npm)**
 ```bash
 npm install -g @ans-project/sdk-js
 ```
 
+**Python (via pip)**
 ```bash
 pip install ans-project-sdk
 ```
 
-For Java users, after building the Java SDK (as described in the [Quick Start Guide](QUICK_START_GUIDE.md)), you can run the `anslookup` CLI directly from the generated JAR:
+**Java (via JAR file)**
 
+For Java users, after building the Java SDK (as described in the [Quick Start Guide](QUICK_START_GUIDE.md)), you can run the `anslookup` CLI directly from the generated JAR:
 ```bash
 java -jar sdk/sdk-java/target/sdk-java-0.0.3-jar-with-dependencies.jar --help
 ```

@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="ans-project-sdk",
-    version="0.0.4",
+    version="0.0.6",
     author="gClouds R&D | gLabs",
     description="Python SDK for the Agent Network System (ANS)",
     long_description=open('README.md').read(),
@@ -18,7 +18,6 @@ setup(
     keywords=["ans", "agent", "sdk", "cli", "lookup", "discovery", "ai-agent"],
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.7',

@@ -2,7 +2,7 @@
 
 **A Use Case Utilising the Agent Network System (ANS)**
 
-![ANS military](../UseCases/images/ANS-military-1.png){ align=left }
+![ANS military](../use-cases/images/ANS-military-1.png){ align=left }
 
 **Abstract:**
 

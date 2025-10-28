@@ -24,7 +24,18 @@ export async function performLookup(params) {
     Object.entries(params).filter(([_, value]) => value !== '' && value !== undefined && value !== null)
   );
 
-  const { query, trust_level, limit = 10, policy_requirements, agent_id } = filteredParams;
+  const { query, trust_level, limit = 10, agent_id } = filteredParams;
+  let policy_requirements = filteredParams.policy_requirements;
+
+  if (policy_requirements && typeof policy_requirements === 'string') {
+    try {
+      policy_requirements = JSON.parse(policy_requirements);
+    } catch (e) {
+      // Not a valid JSON string, treat as a simple string or ignore
+      console.error('Could not parse policy_requirements:', e);
+      policy_requirements = undefined;
+    }
+  }
   let capabilities = filteredParams.capabilities;
   let q = db.collection('agents');
 
@@ -89,13 +100,18 @@ export async function performLookup(params) {
       return true;
     })
     .map(agent => {
+      // Manually reconstruct the endpoints object to ensure it's a plain, serializable object.
+      // This handles any protocol (a2a, ap2, acp, mcp, etc.) that might be present.
+      const endpoints = agent.endpoints ? { ...agent.endpoints } : {};
+
       return {
         agent_id: agent.agent_id,
         did: agent.did,
         name: agent.name,
         description: agent.description,
         organization: agent.organization,
-        endpoints: agent.endpoints,
+        public_key: agent.public_key,
+        endpoints: endpoints,
         capabilities: agent.capabilities,
         verification: {
           level: agent.verification_status,

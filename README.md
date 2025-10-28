@@ -9,6 +9,7 @@ An open specification for a foundational hybrid architecture enabling secure dis
 The Agent Network System (ANS) addresses a fundamental need as AI agents proliferate: a reliable and secure way for agents to discover, verify, and connect. While various protocols define *how* agents communicate, ANS defines the underlying network services that make such communication scalable and trustworthy across diverse organizational and technical boundaries.
 
 ---
+
 <a href="https://youtu.be/ow0WYNpu6IQ" target="_blank" rel="noopener noreferrer">
     <img src="./docs/images/ans5.png"
         alt="Watch the ANS Demo on YouTube"
@@ -23,7 +24,7 @@ The Agent Network System (ANS) addresses a fundamental need as AI agents prolife
 
 Explore our YouTube playlist to see the Agent Network System in action, including tutorials, demonstrations of core features, and recordings of our community tests.
 
-*   **[ANS Features & Testing Playlist](https://www.youtube.com/playlist?list=PLkSabrhCEOUc4RJyT5mGxEQpwhMlkOoQR)**
+* **[ANS Features & Testing Playlist](https://www.youtube.com/playlist?list=PLkSabrhCEOUc4RJyT5mGxEQpwhMlkOoQR)**
 
 ---
 
@@ -49,7 +50,7 @@ Install the package from the npm public repo:
 npm install -g @ans-project/sdk-js
 ```
 
-The JavaScript/TypeScript SDK provides a client library to interact with the ANS backend for agent registration.
+The JavaScript/TypeScript SDK provides a client library to interact with the ANS backend for agent registration, lookup, verification.
 
 ### Java SDK (sdk-java)
 
@@ -85,22 +86,22 @@ pip install ans-project-sdk
 
 The Python SDK provides a client library to interact with the ANS backend for agent registration.
 
-
 ## `anslookup` CLI: The `nslookup` for AI Agents
 
 The `anslookup` CLI is a powerful command-line tool for interacting with the Agent Network System. Just as `nslookup` is used to query the Domain Name System (DNS) for information about servers, `anslookup` allows you to query the ANS for information about registered AI agents. This tool is essential for increasing the accessibility and discoverability of AI agents, whether they are on a global, public network (like a centralized global registry for AI agents) or a private, internal ANS.
-
 
 **Installation:**
 
 The `anslookup` CLI is included with each of the ANS SDKs. You can install it using the package manager for your preferred language.
 
 **JavaScript/TypeScript (via npm)**
+
 ```bash
 npm install -g @ans-project/sdk-js
 ```
 
 **Python (via pip)**
+
 ```bash
 pip install ans-project-sdk
 ```
@@ -108,6 +109,7 @@ pip install ans-project-sdk
 **Java (via JAR file)**
 
 For Java users, after building the Java SDK (as described in the [Quick Start Guide](QUICK_START_GUIDE.md)), you can run the `anslookup` CLI directly from the generated JAR:
+
 ```bash
 java -jar sdk/sdk-java/target/sdk-java-0.0.3-jar-with-dependencies.jar --help
 ```
@@ -131,7 +133,6 @@ anslookup --query "sales-assistant" --capability "customer_support" --trust-leve
 * `--limit`: The maximum number of results to return.
 * `--policy-requirements`: A JSON string with policy requirements.
 * `--endpoint`: The ANS network endpoint to use.
-
 
 ## Why ANS?
 

@@ -16,6 +16,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Packages
 
+## [0.0.5] - 2025-10-28
+
+### Added
+
+- **Backend Service**:
+  - The `/lookup` endpoint now returns the `public_key` for agents to enable cryptographic verification.
+  - Implemented the `/verify` endpoint to allow for programmatic verification of agent claims.
+- **JavaScript/TypeScript SDK (`@ans-project/sdk-js`)**:
+  - Released version `0.0.5` to npm.
+  - Added `--policy-requirements` flag to the `anslookup` CLI for advanced filtering.
+  - The `lookup` method now includes the agent's `public_key` in the response.
+- **Tests & Demonstrations**:
+  - Added Test `00008` for programmatic verification using the `/verify` endpoint.
+  - Added Test `00009` for a visual demonstration of the end-to-end verification workflow.
+- **Documentation**:
+  - Added `agent-verification-workflow.md` explaining the cryptographic principles and workflow.
+  - Added `backend-api-testing-strategy.md` detailing the backend testing strategy.
+
+### Fixed
+
+- **Backend Service**: The `/lookup` endpoint now correctly parses `policy_requirements` when sent as a stringified JSON.
+- **JavaScript/TypeScript SDK (`@ans-project/sdk-js`)**:
+  - Fixed a bug in the `anslookup` CLI argument parser to correctly handle values.
+  - Corrected the conversion of kebab-case arguments to snake_case for the backend API.
+
 ## [0.0.3] - 2025-08-25
 
 ### Added

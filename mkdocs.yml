@@ -28,8 +28,34 @@ theme:
     code: Roboto Mono
 
 nav:
-  - Home: index.md # Main page
-  - Use Cases: usecases.md
+  - Whitepaper: index.md
+  - Getting Started:
+    - Overview: getting-started/index.md
+    - JavaScript Quick Start: getting-started/js-quickstart.md
+    - Python Quick Start: getting-started/python-quickstart.md
+    - Java Quick Start: getting-started/java-quickstart.md
+    - Full Backend Deployment: getting-started/deployment.md
+  - Docs:
+    - Overview: user-guide/index.md
+    - ANSClient: user-guide/ans-client.md
+    - anslookup CLI: user-guide/anslookup-cli.md
+    - Verification: user-guide/verification.md
+    - SDK Comparison: user-guide/sdk-comparison.md
+  - Developer Guides:
+    - Overview: developer-guides/index.md
+    - Agent Registration: developer-guides/agent-registration.md
+    - Agent Lookup: developer-guides/agent-lookup.md
+    - Agent Verification: developer-guides/agent-verification.md
+  - Use Cases:
+    - Overview: use-cases/index.md
+    - RISK- AI Wargame: use-cases/risk-wargame.md
+    - MIMIC- Market Intelligence: use-cases/mimic-market-intelligence.md
+    - A2A-ANS- AI Sales Team: use-cases/a2a-ans.md
+    - Hang the DJ- Social Simulation: use-cases/hang-the-dj.md
+    - AI Agent Swarms in Defence: use-cases/AI Agent Swarms in Defence.md
+  - Engineering Notes:
+    - Agent Verification Workflow: engineering-notes/agent-verification-workflow.md
+    - Backend API Testing Strategy: engineering-notes/backend-api-testing-strategy.md
 
 # Extensions
 markdown_extensions:

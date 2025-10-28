@@ -31,8 +31,18 @@ export class ANSClient {
     return res.data;
   }
 
-  async lookup(params: { query?: string; agent_id?: string; capabilities?: string[]; trust_level?: string; limit?: number; policy_requirements?: { verification_status?: string; capabilities?: string[]; }; }) {
+  async lookup(params: { query?: string; agent_id?: string; capabilities?: string[]; trust_level?: string; limit?: number; policy_requirements?: { verification_status?: string; capabilities?: string[]; } | string; }) {
     const res = await this.api.get('/lookup', { params: params });
+    return res.data;
+  }
+
+  async verify(agent_id: string, attestation: any, signature: string, public_key: string) {
+    const res = await this.api.post('/verify', { agent_id, attestation, signature, public_key });
+    return res.data;
+  }
+
+  async deregister(agent_id: string, reason = 'user_request') {
+    const res = await this.api.post('/deregister', { agent_id, reason });
     return res.data;
   }
 

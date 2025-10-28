@@ -9,6 +9,8 @@ The backend is a Node.js application built with Express. It provides the core AP
 As of the current version, it exposes a single, tested endpoint for agent registration:
 
 *   `POST /register`: Allows a new agent to register with the network by submitting a cryptographically signed payload.
+*   `GET /lookup`: Allows for querying the network for registered agents.                                                                                                        │
+*   `POST /verify`: Allows for programmatic verification of agent claims.                                                                                                        │
 
 ## Running the Service
 

@@ -20,3 +20,8 @@ npm start
 ```
 
 Each test directory contains its own `README.md` with more specific details about its purpose.
+
+### New Verification Tests
+
+*   **Test `00008` (Programmatic Verification):** A clear, automated example of how to use the `/verify` endpoint.
+*   **Test `00009` (Visual Verification Demo):** A powerful visual tool for demonstrating the entire decentralized verification workflow. It shows one agent looking up another on the ANS and verifying its claims.

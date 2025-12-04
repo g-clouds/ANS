@@ -7,14 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-# Changelog
+## Architecture
 
-All notable changes to this project will be documented in this file.
+## [0.1.2] - 2025-12-03
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+### Added
 
-## Packages
+- **Agent Payments Protocol (AP2) Integration**: Added Section 7.4 describing the integration with AP2 for secure agent payments.
+- **Section Renumbering**: Renumbered "Cross-Protocol Workflow Examples" to Section 7.5.
+- **Community & Governance**: Added `CONTRIBUTING.md` and updated README to foster community contribution.
+
+## [0.1.1] - 2025-07-30
+
+### Added
+
+- Appendix H: Federated Architecture (ANS-FED-v0.1.1) to the specification. This appendix describes a federated architecture for the Agent Network System.
+
+## [0.1.0] - 2025-05-02
+
+### Added
+
+- Initial public release of the Agent Network System specification.
+
+---
+
+## Packages (SDKs & Backend)
 
 ## [0.0.5] - 2025-10-28
 
@@ -64,26 +81,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial public release of the Java SDK.
 - `AgentRegistrationClient`: Class for registering a new agent with the ANS network, including key generation and payload signing.
-
----
-
-## Architecture
-
-## [0.1.2] - 2025-12-03
-
-### Added
-
-- **Agent Payments Protocol (AP2) Integration**: Added Section 7.4 describing the integration with AP2 for secure agent payments.
-- **Section Renumbering**: Renumbered "Cross-Protocol Workflow Examples" to Section 7.5.
-
-## [0.1.1] - 2025-07-30
-
-### Added
-
-- Appendix H: Federated Architecture (ANS-FED-v0.1.1) to the specification. This appendix describes a federated architecture for the Agent Network System.
-
-## [0.1.0] - 2025-05-02
-
-### Added
-
-- Initial public release of the Agent Network System specification.

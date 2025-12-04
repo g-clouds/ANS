@@ -26,6 +26,8 @@ We detail the ANS architecture, operations, trust model, and key algorithms so t
 
 **ANS (Agent Network System):** The protocol and infrastructure described in this specification, enabling AI agents to discover, verify, and connect with each other.
 
+**AP2 (Agent Payments Protocol):** The [Agent Payments Protocol](https://github.com/google-agentic-commerce/AP2) integrated with ANS for secure, trustworthy payment interactions between AI agents, requiring blockchain-level trust verification.
+
 **Blockchain Registry:** The decentralized ledger component of ANS that provides immutable records of agent registrations and verifications.
 
 **CRDT (Conflict-Free Replicated Data Type):** Data structures that can be replicated across multiple computers in a network, edited concurrently, and automatically resolved.
@@ -38,11 +40,17 @@ We detail the ANS architecture, operations, trust model, and key algorithms so t
 
 **MCP (Model Context Protocol):** A protocol standard for AI models to access and utilize external tools and services.
 
+**Merchant Agent:** An AI agent capable of accepting payments and providing goods or services, verified for compliance within the AP2 ecosystem.
+
 **OpenAPI:** A specification for building, documenting, and consuming RESTful web services.
 
-**SAML (Security Assertion Markup Language):** An open standard for exchanging authentication and authorization data between parties.
+**Payment Processor:** An entity responsible for handling the financial settlement of transactions between agents in the AP2 ecosystem.
+
+**SAML (Security Assertion Markup Language):** An open standard for exchanging authentication and authorisation data between parties.
 
 **SBOM (Software Bill of Materials):** A formal record containing the details and supply chain relationships of various components used in building software.
+
+**Shopping Agent:** An AI agent that initiates purchases and payments on behalf of a user, requiring discovery and verification of merchants via ANS.
 
 **OIDC (OpenID Connect):** An identity layer built on top of the OAuth 2.0 protocol for authentication.
 
@@ -1696,11 +1704,405 @@ ANS MUST implement a standardised taxonomy for agent capabilities with governanc
 }
 ```
 
-### 7.4 Cross-Protocol Workflow Examples
+### 7.4 Agent Payments Protocol (AP2) Integration
+
+ANS now provides foundational discovery and verification services for the Agent Payments Protocol (AP2), enabling secure, trustworthy payment interactions between AI agents. This integration addresses the critical need for verifiable identity and trust in financial transactions within agentic ecosystems.
+
+#### 7.4.1 AP2-Specific Discovery Patterns
+
+ANS extends its discovery mechanisms to identify AP2-capable agents through specialized capability annotations:
+
+```json
+{
+  "agent_id": "merchant-payment-processor.ans",
+  "capabilities": {
+    "protocols": ["AP2/v1.0"],
+    "ap2:roles": ["merchant", "payment_processor", "shopping_assistant"],
+    "ap2:payment_methods": ["card", "crypto", "digital_wallet"],
+    "ap2:settlement_speed": ["realtime", "batch"],
+    "ap2:fraud_detection": true,
+    "ap2:compliance_level": "PCI_DSS_4.0"
+  },
+  "trust_level": "blockchain",
+  "aibom_hash": "sha256:abc123..."
+}
+```
+
+Key AP2 Discovery Features:
+
+* **Role-based filtering**: Discover agents by AP2-specific roles (merchant, payment processor, shopping assistant, escrow agent)
+* **Capability matching**: Query for agents supporting specific payment methods, settlement speeds, or fraud detection features
+* **Compliance verification**: ANS validators verify PCI DSS, AML, and other regulatory attestations
+* **Transaction limit declarations**: Agents publish maximum transaction values they can process
+
+#### 7.4.2 Enhanced Trust Model for Financial Transactions
+
+AP2 integration mandates Blockchain-level trust as the minimum requirement for payment-capable agents, with additional layers:
+
+| Trust Level         | AP2 Requirements             | Verification Method           | Use Case                 |
+| ------------------- | ---------------------------- | ----------------------------- | ------------------------ |
+| **Basic**           | ❌ Not permitted for payments | N/A                           | Discovery only           |
+| **Standard**        | ❌ Not permitted for payments | N/A                           | Pre-payment verification |
+| **Blockchain**      | ✅ Required minimum           | On-chain identity + staking   | Standard transactions    |
+| **Financial-Grade** | ✅ High-value transactions    | Additional KYC/AML validation | Transactions >\$10,000   |
+
+AP2-Specific Trust Extensions:
+
+* **Payment Staking**: Agents must stake ANS tokens proportional to their transaction volume limits
+* **Regulatory Attestation**: Validators verify compliance certifications (PCI DSS, SOC 2, ISO 27001)
+* **Settlement History**: On-chain record of successful settlements builds reputation scores
+* **Fraud Incident Reporting**: Distributed fraud registry prevents malicious actors from re-registering
+
+#### 7.4.3 AP2 Agent Registration Requirements
+
+Agents implementing AP2 must provide additional metadata during ANS registration:
+
+Required Fields:
+
+`ap2_merchant_id`: Unique merchant identifier (if applicable)
+`ap2_processor_license`: Payment processor license number
+`ap2_compliance_certificates`: Array of compliance certification hashes
+`ap2_settlement_addresses`: Blockchain addresses for settlement
+`ap2_fraud_threshold`: Maximum acceptable fraud rate
+`ap2_insurance_coverage`: Coverage amount for transaction protection
+
+Example Registration:
+
+```bash
+anslookup --register \
+  --agent-id "secure-merchant.ans" \
+  --capability "ap2:merchant" \
+  --trust-level "blockchain" \
+  --ap2-compliance-certificates "sha256:xyz789,sha256:abc123" \
+  --ap2-settlement-address "0x742d35Cc6634C0532925a3b8D4C0C81" \
+  --stake-amount "10000"
+```
+
+Registration API Extension:
+
+```json
+{
+  "method": "register",
+  "params": {
+    "agent_id": "secure-merchant.ans",
+    "capabilities": ["ap2:merchant"],
+    "trust_level": "blockchain",
+    "ap2_metadata": {
+      "merchant_id": "MERCH-12345",
+      "compliance_certificates": [
+        {
+          "type": "PCI_DSS_4.0",
+          "hash": "sha256:xyz789",
+          "issuer": "Visa"
+        }
+      ],
+      "settlement_addresses": {
+        "ethereum": "0x742d35Cc6634C0532925a3b8D4C0C81",
+        "solana": "8K7A3h5..."
+      },
+      "fraud_threshold": 0.01,
+      "insurance_coverage": 1000000
+    }
+  }
+}
+```
+
+#### 7.4.4 Secure AP2 Session Initialisation
+
+ANS provides trust establishment before AP2 session initiation:
+
+```mermaid
+sequenceDiagram
+    participant ShoppingAgent as Shopping Agent (AP2 Client)
+    participant ANS as Agent Network System
+    participant MerchantAgent as Merchant Agent (AP2 Server)
+    participant PaymentProcessor as Payment Processor (AP2 Settlement)
+
+    ShoppingAgent->>ANS: lookup(capability="ap2:merchant", trust_level="blockchain")
+    ANS-->>ShoppingAgent: Return verified merchants
+    ShoppingAgent->>ANS: verify(merchant_id, required_claims=["ap2_compliance"])
+    ANS-->>ShoppingAgent: Verification proof + contextual attestation
+    ShoppingAgent->>MerchantAgent: AP2 initiate(session_context, attestation_token)
+    MerchantAgent->>ANS: Verify shopping agent identity
+    ANS-->>MerchantAgent: Verification result
+    MerchantAgent->>ShoppingAgent: AP2 accept
+    ShoppingAgent->>MerchantAgent: AP2 payment_request
+    MerchantAgent->>PaymentProcessor: AP2 settlement_initiate
+    PaymentProcessor->>ANS: Verify merchant authorisation
+    ANS-->>PaymentProcessor: Authorisation proof
+    PaymentProcessor-->>MerchantAgent: Settlement confirmation
+```
+
+Session Initialization Flow:
+
+1. **Discovery**: Shopping assistant queries ANS for verified merchant agents
+2. **Trust Verification**: ANS returns cryptographic proofs of identity and compliance
+3. **Capability Negotiation**: Agents confirm AP2 version and supported payment methods
+4. **Session Key Exchange**: Blockchain-verified identities enable secure key exchange
+5. **Payment Authorisation**: AP2 transaction proceeds with ANS-provided trust anchor
+
+**anslookup Integration**:
+
+```bash
+# Find verified payment processors
+anslookup --query "payment-processor" --capability "ap2:fraud_detection" --trust-level "blockchain"
+
+# Verify merchant before transaction
+anslookup merchant.example.ans --verify-compliance --check-stake
+
+# Request contextual attestation for payment session
+anslookup merchant.example.ans --request-attestation --context "payment_session_12345" --duration "15m"
+
+```
+
+#### 7.4.5 AIBOM Extensions for Payment Agents
+
+ANS extends the AI Bill of Materials (AIBOM) standard to include payment-specific components:
+
+```json
+
+{
+  "aibom_version": "1.0",
+  "agent_id": "payment-processor.ans",
+  "agent_version": "1.2.3",
+  "payment_components": [
+    {
+      "component_type": "fraud_detection_model",
+      "version": "2.1.3",
+      "provider": "Google Agentic Commerce",
+      "audit_hash": "sha256:fraud123",
+      "last_evaluated": "2025-11-01"
+    },
+    {
+      "component_type": "encryption_module",
+      "version": "3.0.1",
+      "certification": "FIPS_140_3",
+      "validation_date": "2025-09-15"
+    },
+    {
+      "component_type": "payment_gateway",
+      "version": "1.5.0",
+      "provider": "Stripe",
+      "pci_dss_scope": "SAQ_A"
+    }
+  ],
+  "financial_dependencies": {
+    "banking_partner": "Example Bank",
+    "settlement_network": "Ethereum Mainnet",
+    "liquidity_providers": ["Coinbase Prime", "Circle"]
+  },
+  "regulatory_attestations": [
+    {
+      "type": "PCI_DSS_4.0",
+      "authority": "Visa",
+      "certificate_id": "PCI-2025-12345",
+      "valid_until": "2026-11-01"
+    },
+    {
+      "type": "SOC_2_Type_II",
+      "authority": "Deloitte",
+      "report_id": "SOC2-2025-67890"
+    }
+  ]
+}
+```
+
+**Verification Algorithm**:
+
+```javascript
+
+ALGORITHM VerifyAP2AIBOM(agentId, aibomHash)
+  // Verify payment-specific AIBOM components
+  BEGIN
+    // Retrieve registered AIBOM hash from blockchain
+    registeredHash ← GetAibomHashFromBlockchain(agentId)
+    
+    IF aibomHash != registeredHash THEN
+      RETURN {"verified": false, "reason": "AIBOM hash mismatch"}
+    END IF
+    
+    // Verify payment component certifications
+    FOR EACH component IN aibom.payment_components DO
+      IF component.component_type == "encryption_module" THEN
+        IF NOT VerifyFIPSCompliance(component.certification) THEN
+          RETURN {"verified": false, "reason": "Invalid encryption certification"}
+        END IF
+      END IF
+      
+      IF component.component_type == "fraud_detection_model" THEN
+        IF component.last_evaluated > (CurrentDate() - 90_days) THEN
+          RETURN {"verified": false, "reason": "Fraud model outdated"}
+        END IF
+      END IF
+    END FOR
+    
+    // Verify regulatory attestations are not expired
+    FOR EACH attestation IN aibom.regulatory_attestations DO
+      IF attestation.valid_until < CurrentDate() THEN
+        RETURN {"verified": false, "reason": "Expired attestation: " + attestation.type}
+      END IF
+    END FOR
+    
+    RETURN {
+      "verified": true,
+      "payment_component_count": aibom.payment_components.length,
+      "attestation_count": aibom.regulatory_attestations.length
+    }
+  END
+```
+
+#### 7.4.6 Compliance & Regulatory Framework
+
+ANS provides automated compliance verification for AP2 agents:
+
+* **Real-time Sanctions Screening**: ANS validators check against OFAC, EU sanctions lists
+* **Transaction Monitoring**: Distributed telemetry detects suspicious patterns
+* **Audit Trail**: Immutable ledger records all payment agent interactions
+* **Data Residency**: ANS sovereignty features ensure payment data complies with regional regulations (GDPR, CCPA)
+
+Compliance Verification API:
+
+```json
+
+{
+  "method": "verify_compliance",
+  "params": {
+    "agent_id": "payment-processor.ans",
+    "compliance_frameworks": ["PCI_DSS_4.0", "GDPR", "SOC_2"],
+    "region": "EU",
+    "transaction_value": 5000
+  },
+  "response": {
+    "agent_id": "payment-processor.ans",
+    "compliance_status": "compliant",
+    "verified_frameworks": ["PCI_DSS_4.0", "GDPR"],
+    "blocking_issues": ["SOC_2 attestation expired"],
+    "regional_clearance": true,
+    "transaction_limits": {
+      "max_per_transaction": 10000,
+      "max_daily": 100000,
+      "remaining_daily": 75000
+    }
+  }
+}
+```
+
+#### 7.4.7 Integration Architecture
+
+```mermaid
+graph TB
+    subgraph "AP2 Payment Ecosystem"
+        SA[Shopping Agent<br/>AP2 Client]
+        MA[Merchant Agent<br/>AP2 Server]
+        PP[Payment Processor<br/>AP2 Settlement]
+    end
+    
+    subgraph "ANS Core Services"
+        RG[Registry Gateway]
+        TC[Trust Verification Protocol]
+        PD[Policy Distribution]
+        SE[Synchronization Engine]
+    end
+    
+    subgraph "ANS Trust Layer"
+        BC[Blockchain Registry]
+        DV[Distributed Validators]
+        RS[Reputation System]
+    end
+    
+    SA -->|lookup/verify| RG
+    MA -->|lookup/verify| RG
+    PP -->|lookup/verify| RG
+    
+    RG -->|trust queries| TC
+    RG -->|policy checks| PD
+    RG -->|state sync| SE
+    
+    TC -->|consensus| DV
+    SE -->|immutability| BC
+    DV -->|staking/slashing| RS
+    
+    SA -->|AP2 session| MA
+    MA -->|AP2 settlement| PP
+```
+
+Component Responsibilities:
+
+* **Registry Gateway**: Routes all discovery and verification requests
+* **Trust Verification Protocol**: Validates agent identities and AP2-specific claims
+* **Policy Distribution**: Enforces compliance and transaction policies
+* **Synchronization Engine**: Maintains consistency between payment agents
+* **Blockchain Registry**: Records immutable payment agent histories
+* **Distributed Validators**: Verify compliance certificates and staking requirements
+
+#### 7.4.8 Migration Path for Existing AP2 Agents
+
+Existing AP2 agents can integrate with ANS with minimal changes:
+
+1. **Add ANS SDK**: Import `@ans-project/sdk-js` or `ans-project-sdk`
+2. **Register Identity**: Submit agent metadata and stake tokens
+3. **Annotate Capabilities**: Add AP2-specific capability declarations
+4. **Verify Compliance**: Pass ANS validator checks for financial-grade trust
+5. **Update Discovery**: Use ANSClient instead of hardcoded endpoints
+
+```python
+
+from ans_sdk import ANSClient
+from ap2.types import PaymentProcessor
+
+# Initialize ANS client
+client = ANSClient(
+    agent_id="my-processor.ans",
+    trust_level="blockchain",
+    stake_amount=10000
+)
+
+# Register AP2 capabilities
+client.register_capabilities({
+    "protocols": ["AP2/v1.0"],
+    "ap2:roles": ["payment_processor"],
+    "ap2:payment_methods": ["card", "crypto"],
+    "ap2:settlement_speed": "realtime"
+})
+
+# Verify counterpart before transaction
+merchant = client.lookup({
+    "agent_id": "merchant.example.ans",
+    "trust_level": "blockchain",
+    "capabilities": ["ap2:merchant"]
+})
+
+if merchant.verify_compliance("PCI_DSS_4.0"):
+    # Proceed with AP2 transaction using verified endpoint
+    processor = PaymentProcessor(merchant.ap2_endpoint)
+    processor.initiate_payment(
+        amount=100.00,
+        currency="USD",
+        attestation=merchant.attestation_token
+    )
+
+```
+
+**Legacy Compatibility Mode**:
+
+ANS provides a compatibility layer for agents not yet migrated:
+
+```json
+{
+  "legacy_ap2_endpoint": "https://old-api.example.com/payments",
+  "ans_bridge": {
+    "enabled": true,
+    "verification_proxy": true,
+    "trust_level": "blockchain"
+  }
+}
+```
+
+### 7.5 Cross-Protocol Workflow Examples
 
 ANS enables advanced multi-protocol agent workflows:
 
-#### Delegated Task Execution:
+#### 7.5.1 Delegated Task Execution:
 
 An example where Agent A, after discovery and verification of Agent B, delegates work to B, which in turn uses MCP tools before returning results.
 
@@ -1728,7 +2130,7 @@ sequenceDiagram
 >
 > Demonstrates a complex scenario where Agent A discovers and verifies Agent B using ANS (including ZKP and contextual attestations), delegates a task via A2A. Agent B, in turn, uses ANS to discover and verify appropriate MCP tools to perform its sub-tasks before returning results to Agent A.
 
-#### Multi-Agent Collaboration:
+#### 7.5.2 Multi-Agent Collaboration:
 
 In scenarios involving collaboration between multiple specialised agents, an orchestrator can leverage ANS to manage discovery, verification, and connection establishment. Figure 11 depicts such a multi-agent collaboration, highlighting how ANS underpins each stage of interaction and tool usage.
 
@@ -1886,7 +2288,7 @@ The authors invite contribution from the broader AI community to refine and evol
 
 ## 11. Milestone-Driven Roadmap
 
-The Agent Network System (ANS) v0.1.0 specification represents the foundational blueprint for a secure and interoperable AI agent ecosystem. Its evolution will be a community driven effort. We envision a phased approach to development, implementation, and standardisation. This roadmap outlines key milestones and invites collaboration from developers, researchers, organisations, and standards bodies.
+The Agent Network System (ANS) v0.1.2 specification represents the foundational blueprint for a secure and interoperable AI agent ecosystem. Its evolution will be a community driven effort. We envision a phased approach to development, implementation, and standardisation. This roadmap outlines key milestones and invites collaboration from developers, researchers, organisations, and standards bodies.
 
 Phase 1: Foundation & Community Building
 
@@ -2938,7 +3340,7 @@ ALGORITHM GenerateContextualAttestation(agentId, verificationResult, context, va
 > 
 > **Scope**: Adds **federation-only** clauses to the existing ANS spec.
 > 
-> **Compatibility**: Fully additive; no breaking changes to v0.1.0.
+> **Compatibility**: Fully additive; no breaking changes to v0.1.2.
 
 ### H.1  Vision
 
@@ -3226,6 +3628,45 @@ module "ans_federation" {
 | GDPR / Schrems II | Encrypted in transit + regional keys |
 | Zero-downtime upgrade |	Blue/green molting |
 | Auditability |	Logs in Cloud Logging + GCS |
+
+<!-- ANS-SPEC-ADDENDUM-v0.1.2-DRAFT -->
+## Appendix I: 
+
+### I.1 AP2-Specific Glossary Terms
+
+**Agent Payments Protocol (AP2)**: Google's protocol for AI-driven payments between autonomous agents, defining message formats for payment authorization, settlement, and reconciliation.
+**Payment-Grade Trust**: ANS trust level requiring blockchain verification plus financial compliance validation (PCI DSS, AML, KYC).
+**Settlement Agent**: Specialized AP2 agent responsible for finalizing transactions and recording settlement on blockchain networks.
+**Fraud Detection Capability**: ANS capability declaration indicating real-time fraud analysis with machine learning models.
+**Compliance Hash**: Cryptographic hash of regulatory certification documents stored on-chain for tamper-proof verification.
+**Transaction Attestation**: Short-lived cryptographic token proving an agent's authorization to process payments up to a specific value limit.
+
+### I.2 Updated anslookup CLI Reference (AP2 Extensions)
+
+New AP2-specific options:
+* `--ap2-role`: Filter by AP2 role (merchant, processor, shopping_assistant, escrow)
+* `--ap2-payment-method`: Filter by supported payment methods (card, crypto, digital_wallet)
+* `--ap2-settlement-speed`: Filter by settlement speed (realtime, batch, deferred)
+* `--verify-compliance`: Verify specific compliance certification (PCI_DSS, SOC_2, ISO_27001)
+* `--check-stake`: Validate minimum stake requirements for transaction volume
+* `--ap2-settlement-address`: Query settlement blockchain address
+* `--request-attestation`: Request contextual attestation for AP2 session
+
+Example Commands:
+
+```bash
+# Find high-value payment processors with fraud detection
+anslookup --query "processor" --ap2-role "payment_processor" \
+  --ap2-payment-method "card" --trust-level "blockchain" --check-stake
+
+# Verify merchant compliance before large transaction
+anslookup merchant.example.ans --verify-compliance "PCI_DSS_4.0" \
+  --ap2-settlement-address --transaction-value 5000
+
+# Get contextual attestation for payment session
+anslookup processor.example.ans --request-attestation \
+  --context "payment_session_67890" --duration "30m"
+```
 
 ## References
 

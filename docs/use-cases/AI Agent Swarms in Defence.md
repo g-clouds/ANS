@@ -8,7 +8,7 @@
 
 The operational efficacy of coordinated AI agent swarms in defence is paramount, whether these agents are embodied in autonomous drones and ground vehicles or exist as sophisticated software entities. This efficacy critically hinges on the secure discovery, verifiable identity and capabilities of individual agents, as well as policy compliant coordinated action.
 
-This article provides a technical examination of the Agent Network System (ANS) v0.1.0 specification, an open standard designed as a foundational infrastructure to address these critical requirements for multi-agent AI systems. We explore its hybrid architecture, core operational mechanisms enabling secure agent swarm formation and tasking, multi-level trust model for individual agent verification, AI Bill of Materials (AIBOM) integration for software agent integrity, and its specific applicability to complex, policy-driven AI agent swarm operations in contested environments.
+This article provides a technical examination of the Agent Network System (ANS) v0.1.2 specification, an open standard designed as a foundational infrastructure to address these critical requirements for multi-agent AI systems. We explore its hybrid architecture, core operational mechanisms enabling secure agent swarm formation and tasking, multi-level trust model for individual agent verification, AI Bill of Materials (AIBOM) integration for software agent integrity, and its specific applicability to complex, policy-driven AI agent swarm operations in contested environments.
 
 **1. Introduction: The Imperative for a Foundational Trust Layer in Multi-Agent Defence Systems**
 
@@ -20,7 +20,7 @@ Key questions arise:
 * How can we ensure that an AI agent, whether software or hardware instantiated, possesses the attested capabilities and that its underlying software components (its "AI Bill of Materials" - AIBOM) are authentic and uncompromised?
 * How are complex multi-agent behaviours and task allocations governed by verifiable policies rather than solely relying on the internal logic of individual agents or pre-scripted interactions?
 
-The Agent Network System (ANS) specification (currently v0.1.0 – Request for Comment) aims to provide this foundational "trust fabric" for such AI agent ecosystems. It is not a replacement for agent-to-agent (A2A) communication protocols but a complementary infrastructure layer that answers the "who is this agent?" and "are they trustworthy and authorised for this interaction?" questions *before* protocol specific communication commences. In this context, each drone, GCS, UAS or other participating system component is considered an **AI agent** registered and verifiable within the ANS.
+The Agent Network System (ANS) specification (currently v0.1.2 – Request for Comment) aims to provide this foundational "trust fabric" for such AI agent ecosystems. It is not a replacement for agent-to-agent (A2A) communication protocols but a complementary infrastructure layer that answers the "who is this agent?" and "are they trustworthy and authorised for this interaction?" questions *before* protocol specific communication commences. In this context, each drone, GCS, UAS or other participating system component is considered an **AI agent** registered and verifiable within the ANS.
 
 **2. The ANS Hybrid Architecture: Supporting Scalable and Trustworthy AI Agent Ecosystems** ([ANS Spec, Sec 3](../index.md/#3-system-architecture))
 
@@ -89,7 +89,7 @@ Within ANS, every participating entity (drone, GCS, UAS) is an agent.
 The Agent Network System specification offers a technically robust and architecturally sound approach to building the foundational trust layer required for future defence systems. Its emphasis on open standards, hybrid architecture, multi-level verification, AIBOM integration, and policy-driven interactions directly addresses the complex security and interoperability challenges faced by modern militaries.
 Defence organisations, industry partners, and research institutions are encouraged to:
 
-* Review the ANS v0.1.0 specification and provide critical feedback.
+* Review the ANS v0.1.2 specification and provide critical feedback.
 * Identify and support pilot programmes to validate ANS concepts in realistic defence scenarios, such as the drone swarm management example.
 * Contribute to the development of reference implementations and conformance test suites.
 * Collaborate on refining the specification, particularly in areas like the Zero-Knowledge Proof system, validator governance for permissioned defence blockchains, and integration with existing military identity and C2 systems.

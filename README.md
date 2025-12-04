@@ -183,6 +183,7 @@ A summary of changes can be found in the [CHANGELOG.md](CHANGELOG.md) file.
 
 The ANS specification is an evolving standard. Key areas for future work include:
 
+* **SDK Update (v0.1.2 Support):** Release of updated SDKs (Java, JS, Python) compatible with the ANS v0.1.2 architecture and Agent Payments Protocol (AP2). *Note: Current SDKs are compatible with v0.1.1.*
 * Formalization through a recognized standards body.
 * Development of open-source reference implementations.
 * Establishment of a cross-industry governance model.

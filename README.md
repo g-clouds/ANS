@@ -177,7 +177,12 @@ A summary of changes can be found in the [CHANGELOG.md](CHANGELOG.md) file.
 
 * **Questions & Discussions:** Join our [GitHub Discussions](https://github.com/g-clouds/ans/discussions)
 * **Issues & Feedback:** Report errors, suggest improvements, or propose changes via [GitHub Issues](https://github.com/g-clouds/ans/issues).
-* **Contribution Guide:** (Consider creating a `CONTRIBUTING.md` file detailing how to contribute).
+* **Contribution Guide:** Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+* **Ways to Contribute:**
+    * **Review the Spec:** We need diverse eyes on the v0.1.2 architecture (especially the new AP2 section).
+    * **Build SDKs:** Help us port the ANS client to Go, Rust, or C#.
+    * **Propose Use Cases:** Submit PRs to the `docs/use-cases` folder describing how ANS fits into your domain.
+    * **Validate Security:** Help us stress-test the threat model and verification algorithms.
 
 ## What's Next (Roadmap Highlights)
 
@@ -272,7 +277,7 @@ The Agent Network System (ANS) Specification is licensed under the **Apache Lice
 
 ## About
 
-The Agent Network System (ANS) is an open-source project initiated by **gClouds R&D | gLabs**, under the **Apache License 2.0**. We are committed to developing ANS as an open standard and warmly welcome contributions, feedback, and collaboration from the broader AI and agent technology community. Our goal is to foster a robust and interoperable ecosystem for AI agents.
+The Agent Network System (ANS) is a community-driven open specification. While initiated by **gClouds R&D | gLabs**, our goal is to transition ANS into a fully community-governed standard. We operate under the **Apache License 2.0** to ensure true openness and interoperability. We warmly welcome contributions, feedback, and collaboration from the broader AI and agent technology community to foster a robust and interoperable ecosystem for AI agents.
 
 ---
 

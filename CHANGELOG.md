@@ -69,6 +69,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Architecture
 
+## [0.1.2] - 2025-12-03
+
+### Added
+
+- **Agent Payments Protocol (AP2) Integration**: Added Section 7.4 describing the integration with AP2 for secure agent payments.
+- **Section Renumbering**: Renumbered "Cross-Protocol Workflow Examples" to Section 7.5.
+
 ## [0.1.1] - 2025-07-30
 
 ### Added

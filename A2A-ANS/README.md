@@ -53,7 +53,7 @@ Create a service account to grant the agents the necessary permissions.
 - Click **+ ENABLE APIS AND SERVICES**.
 - Enable the following APIs for your project:
     - `Vertex AI API`
-    - `Cloud Firestore API`
+    - `Google Cloud Firestore API`
 
 ### 4. Cloud Firestore Database
 - Go to **Firestore**.
@@ -125,7 +125,12 @@ You will need **four separate terminals**, all opened to this directory (`A2A-AN
 set GOOGLE_APPLICATION_CREDENTIALS=C:\path\to\your\keyfile.json
 ```
 
-**Linux/macOS/PowerShell:**
+**Windows (PowerShell):**
+```powershell
+$env:GOOGLE_APPLICATION_CREDENTIALS="C:\path\to\your\keyfile.json"
+```
+
+**Linux/macOS:**
 ```bash
 export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/keyfile.json"
 ```

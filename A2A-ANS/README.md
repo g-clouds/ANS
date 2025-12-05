@@ -53,7 +53,7 @@ Create a service account to grant the agents the necessary permissions.
 - Click **+ ENABLE APIS AND SERVICES**.
 - Enable the following APIs for your project:
     - `Vertex AI API`
-    - `Cloud Firestore API`
+    - `Google Cloud Firestore API`
 
 ### 4. Cloud Firestore Database
 - Go to **Firestore**.

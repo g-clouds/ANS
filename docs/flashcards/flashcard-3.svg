@@ -1,0 +1,41 @@
+<!-- Card 3: Trust Models -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#fafafa" rx="20"/>
+  <text x="400" y="45" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle" fill="#1a237e">Security Philosophy: Trust Models</text>
+  
+  <!-- A2A Card -->
+  <rect x="50" y="80" width="330" height="220" fill="#e3f2fd" rx="15" stroke="#4285f4" stroke-width="4"/>
+  <text x="215" y="115" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#1a237e">A2A: Trust-But-Verify-Before-Talk</text>
+  <line x1="70" y1="125" x2="360" y2="125" stroke="#4285f4" stroke-width="2"/>
+  
+  <g font-family="Arial, sans-serif" font-size="18">
+    <text x="70" y="155" fill="#333">1. Agent Card (JSON) → Capabilities</text>
+    <text x="70" y="185" fill="#333">2. Assume it's telling the truth</text>
+    <text x="70" y="215" fill="#333">3. Start secure communication</text>
+    <text x="70" y="245" fill="#333">4. Verify during conversation</text>
+  </g>
+  <rect x="55" y="305" width="315" height="30" fill="#ff9800" rx="5"/>
+  <text x="215" y="325" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">Security: Enterprise-grade, implicit trust</text>
+  
+  <!-- ANS Card -->
+  <rect x="420" y="80" width="330" height="220" fill="#e8f5e9" rx="15" stroke="#34a853" stroke-width="4"/>
+  <text x="585" y="115" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#1a237e">ANS: Zero-Trust-All-The-Way</text>
+  <line x1="440" y1="125" x2="730" y2="125" stroke="#34a853" stroke-width="2"/>
+  
+  <g font-family="Arial, sans-serif" font-size="18">
+    <text x="440" y="155" fill="#333">1. Want to talk? → Query ANS</text>
+    <text x="440" y="185" fill="#333">2. Get cryptographic proof</text>
+    <text x="440" y="215" fill="#333">3. Choose trust level:</text>
+    <text x="460" y="240" fill="#4caf50">🟢 Basic (signature)</text>
+    <text x="460" y="265" fill="#ff9800">🟡 Standard (notarized)</text>
+    <text x="460" y="290" fill="#2196f3">🔵 Blockchain (consensus)</text>
+  </g>
+  <rect x="440" y="305" width="290" height="30" fill="#f44336" rx="5"/>
+  <text x="585" y="325" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">Security: Verify BEFORE connecting</text>
+  
+  <!-- Metaphor -->
+  <rect x="50" y="340" width="700" height="120" fill="#fff9c4" rx="15" stroke="#f57f17" stroke-width="3"/>
+  <text x="400" y="375" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#1a237e">💡 METAPHOR</text>
+  <text x="400" y="410" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#1a237e">A2A is <tspan font-weight="bold">caller ID</tspan>, ANS is <tspan font-weight="bold">background check + ID verification</tspan></text>
+  <text x="400" y="445" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#333">One identifies, the other validates authenticity</text>
+</svg>

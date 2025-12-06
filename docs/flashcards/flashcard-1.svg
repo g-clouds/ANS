@@ -1,0 +1,56 @@
+<!-- Card 1: A2A - ANS Network Side-by-Side Comparison Table -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8f9ff"/>
+      <stop offset="100%" stop-color="#e8f4fd"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  <rect width="700" height="600" fill="url(#bg)" rx="20"/>
+  <text x="355" y="45" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle" fill="#1a237e">A2A vs ANS Network: Core Comparison</text>
+  
+  <g font-family="Arial, sans-serif" font-size="18">
+    <!-- Headers -->
+    <rect x="50" y="80" width="200" height="50" fill="#4285f4" rx="10" filter="url(#shadow)"/>
+    <rect x="390" y="80" width="280" height="50" fill="#34a853" rx="10" filter="url(#shadow)"/>
+    <text x="160" y="112" font-weight="bold" fill="white" text-anchor="middle">A2A Protocol</text>
+    <text x="500" y="112" font-weight="bold" fill="white" text-anchor="middle">ANS Network</text>
+    
+    <!-- Question Row -->
+    <rect x="50" y="140" width="200" height="60" fill="#e3f2fd" rx="8"/>
+    <rect x="390" y="140" width="280" height="60" fill="#e8f5e9" rx="8"/>
+    <text x="250" y="165" font-weight="bold" fill="#1a237e">🤔 QUESTION</text>
+    <text x="60" y="190" fill="#333">"How do we talk?"</text>
+    <text x="400" y="190" fill="#333">"Who are you &amp; can I trust you?"</text>
+    
+    <!-- Purpose Row -->
+    <rect x="50" y="210" width="200" height="60" fill="#bbdefb" rx="8"/>
+    <rect x="390" y="210" width="280" height="60" fill="#c8e6c9" rx="8"/>
+    <text x="250" y="235" font-weight="bold" fill="#1a237e">🎯 PURPOSE</text>
+    <text x="60" y="260" fill="#333">Communication</text>
+    <text x="400" y="260" fill="#333">Discovery &amp; Verification</text>
+    
+    <!-- Transport Row -->
+    <rect x="50" y="280" width="200" height="60" fill="#90caf9" rx="8"/>
+    <rect x="390" y="280" width="280" height="60" fill="#a5d6a7" rx="8"/>
+    <text x="245" y="305" font-weight="bold" fill="#1a237e">🔧 TRANSPORT</text>
+    <text x="60" y="330" fill="#333">JSON-RPC 2.0</text>
+    <text x="400" y="330" fill="#333">REST APIs + gRPC</text>
+    
+    <!-- Trust Row -->
+    <rect x="50" y="350" width="200" height="60" fill="#64b5f6" rx="8"/>
+    <rect x="390" y="350" width="280" height="60" fill="#81c784" rx="8"/>
+    <text x="250" y="375" font-weight="bold" fill="#1a237e">🔐 TRUST</text>
+    <text x="60" y="400" fill="#333">Implicit post-discovery</text>
+    <text x="400" y="400" fill="#333">Zero-trust + Crypto proofs</text>
+    
+    <!-- Key Takeaway -->
+    <rect x="150" y="430" width="460" height="120" fill="#fff59d" rx="12" stroke="#f57f17" stroke-width="3"/>
+    <text x="330" y="460" font-weight="bold" fill="#1a237e" text-anchor="middle">💡 KEY TAKEAWAY</text>
+    <text x="380" y="490" fill="#1a237e" text-anchor="middle">They are COMPLEMENTARY, not competitors!</text>
+    <text x="380" y="515" fill="#1a237e" text-anchor="middle">ANS finds agents → A2A lets them talk</text>
+  </g>
+</svg>

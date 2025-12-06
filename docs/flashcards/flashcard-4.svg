@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="decision-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff3e0"/>
+      <stop offset="100%" stop-color="#ffe0b2"/>
+    </linearGradient>
+    <marker id="arrow2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#34a853"/>
+    </marker>
+    <marker id="arrow3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#ff9800"/>
+    </marker>
+    <marker id="arrow4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#2196f3"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#decision-bg)" rx="20"/>
+  <text x="400" y="45" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle" fill="#1a237e">Decision Tree: Which Protocol to Use?</text>
+
+  <!-- Decision diamond -->
+  <polygon points="400,120 550,200 400,280 250,200" fill="#9c27b0" stroke="#7b1fa2" stroke-width="3"/>
+  <text x="400" y="195" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">❓ Do you already know</text>
+  <text x="400" y="220" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">which agents to connect?</text>
+
+  <!-- Yes branch -->
+  <path d="M 250 200 L 150 200 L 150 350" stroke="#34a853" stroke-width="4" fill="none" marker-end="url(#arrow2)"/>
+  <rect x="50" y="350" width="200" height="80" fill="#4caf50" rx="10"/>
+  <text x="150" y="385" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">✅ YES</text>
+  <text x="150" y="410" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle">Use A2A directly</text>
+
+  <!-- No branch -->
+  <path d="M 550 200 L 650 200 L 650 350" stroke="#ff9800" stroke-width="4" fill="none" marker-end="url(#arrow3)"/>
+  <rect x="550" y="350" width="200" height="80" fill="#ff9800" rx="10"/>
+  <text x="650" y="380" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">❓ NO</text>
+  <text x="650" y="400" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle">Need cross-org</text>
+  <text x="650" y="420" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle">discovery?</text>
+
+  <!-- Final decision -->
+  <path d="M 650 430 L 650 480" stroke="#2196f3" stroke-width="4" fill="none" marker-end="url(#arrow4)"/>
+  <rect x="500" y="480" width="300" height="100" fill="#2196f3" rx="10"/>
+  <text x="650" y="515" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">✅ YES → Use BOTH!</text>
+  <text x="650" y="545" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle">1. ANS → discover &amp; verify</text>
+  <text x="650" y="565" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle">2. A2A → communicate</text>
+
+  <!-- Rule of thumb -->
+  <rect x="50" y="480" width="400" height="100" fill="#fff" rx="10" stroke="#1a237e" stroke-width="2"/>
+  <text x="250" y="510" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#1a237e">🎯 RULE OF THUMB</text>
+  <text x="70" y="540" font-family="Arial, sans-serif" font-size="16" fill="#333">• Public ecosystem → ANS + A2A</text>
+  <text x="70" y="565" font-family="Arial, sans-serif" font-size="16" fill="#333">• Private silo → A2A alone</text>
+</svg>

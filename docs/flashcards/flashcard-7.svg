@@ -1,0 +1,40 @@
+<!-- Card 7: Color-Coded Summary -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 650" width="800" height="650">
+  <rect width="800" height="650" fill="#fff" rx="20"/>
+  <text x="400" y="50" font-family="Arial, sans-serif" font-size="36" font-weight="bold" text-anchor="middle" fill="#1a237e">Quick Reference: Color Your Understanding</text>
+  
+  <!-- Color boxes -->
+  <rect x="100" y="110" width="250" height="230" fill="#4285f4" rx="15" filter="url(#shadow)"/>
+  <rect x="450" y="110" width="260" height="230" fill="#34a853" rx="15" filter="url(#shadow)"/>
+  
+  <text x="225" y="160" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle" fill="white">🔵 A2A</text>
+  <text x="575" y="160" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle" fill="white">🟢 ANS Network</text>
+  
+  <g font-family="Arial, sans-serif" font-size="20" fill="white">
+    <text x="225" y="200" text-anchor="middle">= COMMUNICATION</text>
+    <text x="225" y="225" text-anchor="middle">(Blue like conversation)</text>
+    <text x="225" y="255" text-anchor="middle">💬 JSON-RPC</text>
+    <text x="225" y="280" text-anchor="middle">🔄 Request/response</text>
+    <text x="225" y="305" text-anchor="middle">📡 Streaming &amp; async</text>
+    <text x="225" y="330" text-anchor="middle">🎯 Direct agent-to-agent</text>
+    
+    <text x="575" y="200" text-anchor="middle">= INFRASTRUCTURE</text>
+    <text x="575" y="225" text-anchor="middle">(Green like networks)</text>
+    <text x="575" y="255" text-anchor="middle">🌐 Global registry</text>
+    <text x="575" y="280" text-anchor="middle">🌱 Growing ecosystem</text>
+    <text x="575" y="305" text-anchor="middle">🔒 Trust &amp; verification</text>
+    <text x="575" y="330" text-anchor="middle">🧭 Discovery &amp; routing</text>
+  </g>
+  
+  <!-- Ecosystem warning -->
+  <rect x="100" y="360" width="600" height="120" fill="#ffeb3b" rx="15" stroke="#f57f17" stroke-width="4"/>
+  <text x="400" y="400" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#1a237e">🟡 BOTH = ECOSYSTEM</text>
+  <line x1="120" y1="410" x2="680" y2="410" stroke="#f57f17" stroke-width="2"/>
+  <text x="400" y="440" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#f44336">⚠️ A2A without ANS = siloed agents</text>
+  <text x="400" y="470" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#f44336">⚠️ ANS without A2A = agents that can't talk</text>
+  
+  <!-- Memory tip -->
+  <rect x="100" y="500" width="600" height="100" fill="#e1f5fe" rx="15" stroke="#0288d1" stroke-width="3"/>
+  <text x="400" y="540" font-family="Arial, sans-serif" font-size="26" font-weight="bold" text-anchor="middle" fill="#1a237e">🎨 MEMORY TRICK</text>
+  <text x="400" y="580" font-family="Arial, sans-serif" font-size="22" text-anchor="middle" fill="#1a237e">"Blue sky conversations need green ground infrastructure"</text>
+</svg>

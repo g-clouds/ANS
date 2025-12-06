@@ -1,0 +1,51 @@
+<!-- Card 6: Real-World Analogy -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <pattern id="building" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+      <rect width="100" height="100" fill="#e3f2fd"/>
+      <rect x="10" y="10" width="30" height="30" fill="#fff" rx="2"/>
+      <rect x="60" y="10" width="30" height="30" fill="#fff" rx="2"/>
+      <rect x="10" y="60" width="30" height="30" fill="#fff" rx="2"/>
+      <rect x="60" y="60" width="30" height="30" fill="#fff" rx="2"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#building)" rx="20"/>
+  <text x="400" y="45" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle" fill="#1a237e">Office Building Metaphor</text>
+  <text x="400" y="85" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle" fill="#1a237e">ANS Network vs A2A</text>
+  <!-- ANS Building -->
+  <rect x="80" y="120" width="320" height="300" fill="#e8f5e9" rx="15" stroke="#34a853" stroke-width="4"/>
+  <text x="240" y="155" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#1a237e">ANS = Directory + Security</text>
+  <line x1="120" y1="165" x2="360" y2="165" stroke="#34a853" stroke-width="2"/>
+  
+  <g font-family="Arial, sans-serif" font-size="18">
+    <text x="120" y="200" fill="#1a237e">🗂️ <tspan font-weight="bold">Directory (Discovery)</tspan></text>
+    <text x="120" y="225" fill="#333">"Find certified translator</text>
+    <text x="120" y="245" fill="#333">on floor 5"</text>
+    
+    <text x="120" y="280" fill="#1a237e">🔐 <tspan font-weight="bold">Security Desk (Verification)</tspan></text>
+    <text x="120" y="305" fill="#333">"Show your ID badge"</text>
+    <text x="120" y="325" fill="#333">"Verify clearance level"</text>
+    <text x="120" y="345" fill="#333">"Okay, proceed"</text>
+  </g>
+  
+  <!-- A2A Building -->
+  <rect x="435" y="120" width="290" height="300" fill="#e3f2fd" rx="15" stroke="#4285f4" stroke-width="4"/>
+  <text x="575" y="155" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#1a237e">A2A = Intercom System</text>
+  <line x1="470" y1="165" x2="680" y2="165" stroke="#4285f4" stroke-width="2"/>
+  
+  <g font-family="Arial, sans-serif" font-size="18">
+    <text x="470" y="200" fill="#1a237e">📞 <tspan font-weight="bold">Communication Protocol</tspan></text>
+    <text x="470" y="225" fill="#333">"Hi, Marketing here"</text>
+    <text x="470" y="245" fill="#333">"Let's video chat"</text>
+    
+    <text x="470" y="280" fill="#1a237e">🤝 <tspan font-weight="bold">Task Collaboration</tspan></text>
+    <text x="470" y="305" fill="#333">"Help finish proposal</text>
+    <text x="470" y="325" fill="#333">by Friday"</text>
+    <text x="470" y="345" fill="#333">"I'll send updates"</text>
+  </g>
+  
+  <!-- Bottom banner -->
+  <rect x="80" y="450" width="650" height="100" fill="#fff59d" rx="15" stroke="#f57f17" stroke-width="3"/>
+  <text x="400" y="485" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#1a237e">💡 MORAL</text>
+  <text x="405" y="520" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#1a237e">You need BOTH the directory/security AND the intercom to run an office!</text>
+</svg>

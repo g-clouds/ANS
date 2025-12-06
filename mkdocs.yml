@@ -41,6 +41,7 @@ nav:
     - anslookup CLI: user-guide/anslookup-cli.md
     - Verification: user-guide/verification.md
     - SDK Comparison: user-guide/sdk-comparison.md
+    - Flashcards: flashcards/index.md
   - Developer Guides:
     - Overview: developer-guides/index.md
     - Agent Registration: developer-guides/agent-registration.md

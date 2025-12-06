@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" width="900" height="700">
+  <rect width="900" height="700" fill="#fafafa" rx="20"/>
+  <text x="450" y="40" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#1a237e">Complete A2A + ANS Integration Reference</text>
+  
+  <!-- Left column: A2A -->
+  <rect x="50" y="70" width="380" height="300" fill="#e3f2fd" rx="15" stroke="#4285f4" stroke-width="3"/>
+  <text x="240" y="100" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#1a237e">A2A Protocol Details</text>
+  <line x1="70" y1="110" x2="410" y2="110" stroke="#4285f4" stroke-width="2"/>
+  
+  <g font-family="Arial, sans-serif" font-size="14">
+    <text x="70" y="135" fill="#1a237e" font-weight="bold">Transport:</text>
+    <text x="70" y="155" fill="#333">• JSON-RPC 2.0 over HTTP(S)</text>
+    <text x="70" y="175" fill="#333">• SSE for streaming</text>
+    
+    <text x="70" y="200" fill="#1a237e" font-weight="bold">Interaction Modes:</text>
+    <text x="70" y="220" fill="#333">• Synchronous request/response</text>
+    <text x="70" y="240" fill="#333">• Asynchronous push notifications</text>
+    <text x="70" y="260" fill="#333">• Server-Sent Events (SSE)</text>
+    
+    <text x="70" y="285" fill="#1a237e" font-weight="bold">Key Concepts:</text>
+    <text x="70" y="305" fill="#333">• Agent Cards (capabilities)</text>
+    <text x="70" y="325" fill="#333">• Task lifecycle management</text>
+    <text x="70" y="345" fill="#333">• Rich data exchange</text>
+  </g>
+  
+  <!-- Right column: ANS -->
+  <rect x="470" y="70" width="380" height="300" fill="#e8f5e9" rx="15" stroke="#34a853" stroke-width="3"/>
+  <text x="660" y="100" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#1a237e">ANS Network Details</text>
+  <line x1="490" y1="110" x2="830" y2="110" stroke="#34a853" stroke-width="2"/>
+  
+  <g font-family="Arial, sans-serif" font-size="14">
+    <text x="490" y="135" fill="#1a237e" font-weight="bold">Architecture:</text>
+    <text x="490" y="155" fill="#333">• Centralised discovery + decentralised trust</text>
+    <text x="490" y="175" fill="#333">• Firestore (GCP) + optional blockchain</text>
+    
+    <text x="490" y="200" fill="#1a237e" font-weight="bold">Trust Levels:</text>
+    <text x="490" y="220" fill="#4caf50">🟢 Basic: Digital signature</text>
+    <text x="490" y="240" fill="#ff9800">🟡 Standard: Notarised verification</text>
+    <text x="490" y="260" fill="#2196f3">🔵 Blockchain: Consensus-based</text>
+    
+    <text x="490" y="285" fill="#1a237e" font-weight="bold">Key Concepts:</text>
+    <text x="490" y="305" fill="#333">• Agent registration &amp; lookup</text>
+    <text x="490" y="325" fill="#333">• Capability-based search</text>
+    <text x="490" y="345" fill="#333">• Policy enforcement</text>
+  </g>
+  
+  <!-- Integration flow -->
+  <rect x="50" y="400" width="800" height="250" fill="#fff3e0" rx="15" stroke="#ff9800" stroke-width="3"/>
+  <text x="450" y="430" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#1a237e">🔄 Integration Flow: How They Work Together</text>
+  <line x1="70" y1="440" x2="830" y2="440" stroke="#ff9800" stroke-width="2"/>
+  
+  <g font-family="Arial, sans-serif" font-size="16">
+    <text x="70" y="470" fill="#333">1. <tspan font-weight="bold">Discovery Phase (ANS):</tspan> Client lookups  ANS registry → ANS returns verified agent endpoints</text>
+    <text x="70" y="500" fill="#333">2. <tspan font-weight="bold">Verification Phase (ANS):</tspan> Client validates cryptographic proofs → Checks policy compliance</text>
+    <text x="70" y="530" fill="#333">3. <tspan font-weight="bold">Initiation Phase (A2A):</tspan> Client requests Agent Card via HTTPS → Agent responds with supported modes</text>
+    <text x="70" y="560" fill="#333">4. <tspan font-weight="bold">Communication Phase (A2A):</tspan> JSON-RPC calls  → streaming updates → Async notifications</text>
+    <text x="70" y="590" fill="#333">5. <tspan font-weight="bold">Completion:</tspan> Task results delivered → ANS logs interaction → Both parties maintain independent state</text>
+  </g>
+  
+  <!-- Bottom tip -->
+  <text x="450" y="635" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#1a237e">💡 ANS is the "trust layer" that enables secure A2A "communication layer"</text>
+</svg>

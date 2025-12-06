@@ -1,0 +1,51 @@
+<!-- Card 5: Feature Face-Off -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#f3e5f5" rx="20"/>
+  <text x="400" y="45" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle" fill="#1a237e">Unique Features: What Makes Each Special</text>
+  
+  <!-- A2A Features -->
+  <rect x="40" y="80" width="340" height="360" fill="#e3f2fd" rx="15" stroke="#4285f4" stroke-width="3"/>
+  <text x="210" y="110" font-family="Arial, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#1a237e">A2A Features 🔵</text>
+  <line x1="60" y1="120" x2="360" y2="120" stroke="#4285f4" stroke-width="2"/>
+  
+  <g font-family="Arial, sans-serif" font-size="17">
+    <text x="60" y="150" fill="#1a237e">✅ <tspan font-weight="bold">Task Lifecycle Management</tspan></text>
+    <text x="60" y="175" fill="#333">→ Track tasks over hours/days</text>
+    
+    <text x="60" y="210" fill="#1a237e">✅ <tspan font-weight="bold">Opacity Preservation</tspan></text>
+    <text x="60" y="235" fill="#333">→ Internal memory/tools private</text>
+    
+    <text x="60" y="270" fill="#1a237e">✅ <tspan font-weight="bold">Dynamic UX Negotiation</tspan></text>
+    <text x="60" y="295" fill="#333">→ Add video/voice mid-chat</text>
+    
+    <text x="60" y="330" fill="#1a237e">✅ <tspan font-weight="bold">Rich Media Exchange</tspan></text>
+    <text x="60" y="355" fill="#333">→ Files, forms, JSON data</text>
+  </g>
+  
+  <!-- ANS Features -->
+  <rect x="420" y="80" width="340" height="360" fill="#e8f5e9" rx="15" stroke="#34a853" stroke-width="3"/>
+  <text x="590" y="110" font-family="Arial, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#1a237e">ANS Network Features 🟢</text>
+  <line x1="440" y1="120" x2="740" y2="120" stroke="#34a853" stroke-width="2"/>
+  
+  <g font-family="Arial, sans-serif" font-size="17">
+    <text x="440" y="150" fill="#1a237e">✅ <tspan font-weight="bold">Progressive Trust</tspan></text>
+    <text x="440" y="175" fill="#333">→ Basic/Standard/Blockchain</text>
+    
+    <text x="440" y="210" fill="#1a237e">✅ <tspan font-weight="bold">Blockchain Integration</tspan></text>
+    <text x="440" y="235" fill="#333">→ Immutable verification</text>
+    
+    <text x="440" y="270" fill="#1a237e">✅ <tspan font-weight="bold">Sovereignty &amp; Data Residency</tspan></text>
+    <text x="440" y="295" fill="#333">→ Control where data lives</text>
+    
+    <text x="440" y="330" fill="#1a237e">✅ <tspan font-weight="bold">AI Supply Chain (AIBOM)</tspan></text>
+    <text x="440" y="355" fill="#333">→ Verify agent components</text>
+    
+    <text x="440" y="390" fill="#1a237e">✅ <tspan font-weight="bold">Protocol Agnostic</tspan></text>
+    <text x="440" y="415" fill="#333">→ Works with A2A, ACP, MCP</text>
+  </g>
+  
+  <!-- Bottom banner -->
+  <rect x="50" y="480" width="700" height="80" fill="#fff59d" rx="15" stroke="#f57f17" stroke-width="3"/>
+  <text x="400" y="515" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#1a237e">🌟 BEST OF BOTH: ANS brings trust, A2A brings capability!</text>
+  <text x="400" y="540" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#333">Use them together for a complete solution</text>
+</svg>

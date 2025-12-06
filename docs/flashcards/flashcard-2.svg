@@ -1,0 +1,46 @@
+<!-- Card 2: Architecture Stack -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 640" width="800" height="600">
+  <defs>
+    <linearGradient id="stack-bg" x1="0" y1="" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5f5f5"/>
+      <stop offset="100%" stop-color="#e0e0e0"/>
+    </linearGradient>
+    <filter id="box-shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <rect width="840" height="640" fill="url(#stack-bg)" rx="20"/>
+  <text x="400" y="50" font-family="Arial, sans-serif" font-size="36" font-weight="bold" text-anchor="middle" fill="#333">AI Agent Stack Architecture</text>
+  
+  <!-- Top layer -->
+  <rect x="150" y="100" width="500" height="80" fill="#e91e63" rx="15" filter="url(#box-shadow)"/>
+  <text x="400" y="140" font-family="Arial, sans-serif" font-size="26" font-weight="bold" fill="white" text-anchor="middle">🤖 AI Agent Ecosystem</text>
+  <text x="400" y="165" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle">(LangGraph, CrewAI, AutoGen, etc.)</text>
+  
+  <!-- Arrow -->
+  <path d="M 400 180 L 400 210" stroke="#555" stroke-width="4" marker-end="url(#arrowhead)"/>
+  <defs><marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><polygon points="0 0, 10 3, 0 6" fill="#555"/></marker></defs>
+  
+  <!-- Middle layer -->
+  <rect x="150" y="220" width="500" height="80" fill="#9c27b0" rx="15" filter="url(#box-shadow)"/>
+  <text x="400" y="260" font-family="Arial, sans-serif" font-size="26" font-weight="bold" fill="white" text-anchor="middle">📡 A2A Protocol</text>
+  <text x="400" y="285" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle">"Let's Collaborate!" • Task Management • Data Exchange</text>
+  
+  <!-- Arrow -->
+  <path d="M 400 300 L 400 330" stroke="#555" stroke-width="4" marker-end="url(#arrowhead)"/>
+  
+  <!-- Bottom layer -->
+  <rect x="150" y="340" width="500" height="80" fill="#3f51b5" rx="15" filter="url(#box-shadow)"/>
+  <text x="400" y="380" font-family="Arial, sans-serif" font-size="26" font-weight="bold" fill="white" text-anchor="middle">🔍 ANS Network</text>
+  <text x="400" y="405" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle">"Who's Out There?" • Global Discovery • Trust Verification</text>
+  
+  <!-- Arrow -->
+  <path d="M 400 420 L 400 450" stroke="#555" stroke-width="4" marker-end="url(#arrowhead)"/>
+  
+  <!-- Base layer -->
+  <rect x="150" y="460" width="500" height="80" fill="#2196f3" rx="15" filter="url(#box-shadow)"/>
+  <text x="400" y="500" font-family="Arial, sans-serif" font-size="26" font-weight="bold" fill="white" text-anchor="middle">🌐 Internet</text>
+  
+  <!-- Key takeaway -->
+  <text x="400" y="590" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#1a237e">🎓 REMEMBER: ANS is the FOUNDATION, A2A is the CONVERSATION</text>
+</svg>

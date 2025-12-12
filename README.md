@@ -24,7 +24,7 @@ The Agent Network System (ANS) addresses a fundamental need as AI agents prolife
 
 Explore our YouTube playlist to see the Agent Network System in action, including tutorials, demonstrations of core features, and recordings of our community tests.
 
-* **[ANS Features & Testing Playlist](https://www.youtube.com/playlist?list=PLkSabrhCEOUc4RJyT5mGxEQpwhMlkOoQR)**
+* **[ANS Features &amp; Testing Playlist](https://www.youtube.com/playlist?list=PLkSabrhCEOUc4RJyT5mGxEQpwhMlkOoQR)**
 
 ---
 
@@ -169,6 +169,14 @@ ANS is designed as a foundational layer that enhances and supports a diverse ran
 
 ANS provides the trust and discovery infrastructure, while specific protocols like A2A, ACP, and MCP handle the direct communication formats and interaction patterns.
 
+## Integrations
+
+ANS provides adapters and SDKs to easily integrate with popular AI agent frameworks:
+
+* **[CopilotKit](https://github.com/CopilotKit/CopilotKit):**
+  * **Adapter:** [`@ans-project/copilotkit-adapter`](sdk/copilotkit-adapter) - Allows CopilotKit agents to discover and register with ANS.
+  * **Example:** [`examples/copilotkit-demo`](examples/copilotkit-demo) - A Next.js application demonstrating a multi-agent system where a CopilotKit agent finds and connects to other agents via ANS.
+
 ## Contributing
 
 This ANS specification is currently a **Version [![GitHub release (latest by date)](https://img.shields.io/github/v/release/g-clouds/ans?style=flat-square)](https://github.com/g-clouds/ans/releases/latest) – Request for Comment**. We actively welcome community contributions, feedback, and collaboration from developers, researchers, and organizations working across the AI agent landscape to refine and evolve this foundational standard.
@@ -179,10 +187,10 @@ A summary of changes can be found in the [CHANGELOG.md](CHANGELOG.md) file.
 * **Issues & Feedback:** Report errors, suggest improvements, or propose changes via [GitHub Issues](https://github.com/g-clouds/ans/issues).
 * **Contribution Guide:** Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 * **Ways to Contribute:**
-    * **Review the Spec:** We need diverse eyes on the v0.1.2 architecture (especially the new AP2 section).
-    * **Build SDKs:** Help us port the ANS client to Go, Rust, or C#.
-    * **Propose Use Cases:** Submit PRs to the `docs/use-cases` folder describing how ANS fits into your domain.
-    * **Validate Security:** Help us stress-test the threat model and verification algorithms.
+  * **Review the Spec:** We need diverse eyes on the v0.1.2 architecture (especially the new AP2 section).
+  * **Build SDKs:** Help us port the ANS client to Go, Rust, or C#.
+  * **Propose Use Cases:** Submit PRs to the `docs/use-cases` folder describing how ANS fits into your domain.
+  * **Validate Security:** Help us stress-test the threat model and verification algorithms.
 
 ## What's Next (Roadmap Highlights)
 

@@ -205,3 +205,6 @@ target/
 
 # Keys
 *.pem
+jira-setup/
+
+working_logs/

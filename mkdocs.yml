@@ -47,6 +47,8 @@ nav:
     - Agent Registration: developer-guides/agent-registration.md
     - Agent Lookup: developer-guides/agent-lookup.md
     - Agent Verification: developer-guides/agent-verification.md
+    - Post-Quantum Cryptography (PQC): developer-guides/pqc-implementation-guide.md
+    - PQC Validation Report: developer-guides/pqc-poc-validation.md
   - Use Cases:
     - Overview: use-cases/index.md
     - RISK- AI Wargame: use-cases/risk-wargame.md
@@ -57,6 +59,7 @@ nav:
   - Engineering Notes:
     - Agent Verification Workflow: engineering-notes/agent-verification-workflow.md
     - Backend API Testing Strategy: engineering-notes/backend-api-testing-strategy.md
+    - PQC Migration Roadmap: engineering-notes/pqc-migration-roadmap.md
 
 # Extensions
 markdown_extensions:

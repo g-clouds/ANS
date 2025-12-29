@@ -25,3 +25,7 @@ Each test directory contains its own `README.md` with more specific details abou
 
 *   **Test `00008` (Programmatic Verification):** A clear, automated example of how to use the `/verify` endpoint.
 *   **Test `00009` (Visual Verification Demo):** A powerful visual tool for demonstrating the entire decentralized verification workflow. It shows one agent looking up another on the ANS and verifying its claims.
+
+### Post-Quantum Cryptography (PQC) Tests
+
+*   **Test `pqc-poc` (Hybrid Identity PoC):** A functional Proof of Concept demonstrating the integration of NIST ML-DSA (Dilithium) signatures alongside classical ECDSA. It validates quantum-resistant primitives against the official NIST FIPS 204 standard.

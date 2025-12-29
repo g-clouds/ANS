@@ -2269,7 +2269,22 @@ Implementations SHOULD publish performance characteristics and SLAs appropriate 
 * **Privacy-Preserving Collaboration**: Selective disclosure of capabilities for sensitive operations
 * **Dynamic Agent Discovery**: Runtime discovery and verification of specialised capabilities
 
-## 10. Conclusion and Future Work
+## 8. Quantum-Proof Architecture
+
+The Agent Network System (ANS) incorporates a forward-looking security architecture designed to resist cryptanalytic attacks from future Cryptographically Relevant Quantum Computers (CRQC). This architecture mandates a transition from classical asymmetric cryptography to post-quantum cryptographic (PQC) standards.
+
+### 8.1 Post-Quantum Cryptography (PQC) Integration
+
+ANS implementations MUST support a **Hybrid (Dual-Key) Architecture**, enabling the concurrent use of classical and quantum-resistant cryptographic primitives. This approach ensures backward compatibility while establishing a defense-in-depth posture against quantum threats.
+
+*   **Standard Compliance:** The PQC layer MUST adhere to the **[NIST FIPS 204](https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.204.pdf)** standard (Module-Lattice-Based Digital Signature Standard).
+*   **Identity Verification:** For high-assurance trust levels (e.g., `blockchain` verification), agents SHALL employ **ML-DSA** (specifically the **ML-DSA-87** parameter set) for digital signatures.
+*   **Hybrid Identity Schema:** The agent registration payload encompasses both a primary classical key (ECDSA `secp256r1`) and a secondary quantum-resistant key (ML-DSA), allowing verifiers to select the appropriate trust model for their interaction context.
+
+Detailed technical specifications and transition phases are defined in the **[PQC Migration Roadmap](./engineering-notes/pqc-migration-roadmap.md)** and the **[PQC Implementation Guide](./developer-guides/pqc-implementation-guide.md)**.
+
+## 9. Conclusion
+
 
 The Agent Network System (ANS) specification provides a comprehensive model for the emerging AI agent ecosystem, enabling secure, efficient discovery and verification of agents at global scale. By combining high performance centralised components with the trust guarantees of blockchain technology, the ANS architecture delivers a hybrid approach that meets the diverse needs of the AI agent community.
 

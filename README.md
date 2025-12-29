@@ -151,8 +151,10 @@ As the vision of interconnected AI agents becomes a reality, the limitations of 
 * **Zero-Trust Security:** Continuous verification at all levels, with no implicit trust.
 * **Sovereignty Enablement:** Mechanisms for data residency and organizational control.
 * **Standards Alignment:** Designed for integration with DIDs, DNS-SD, gRPC, OpenAPI, and to support emerging agent protocols.
-* **AI Supply Chain Verification:** Support for AIBOMs and verification of agent components.
-* **Protocol Agnostic:** Designed to support discovery and verification for agents regardless of the specific communication protocol they implement.
+*   **AI Supply Chain Verification:** Support for AIBOMs and verification of agent components.
+*   **Quantum-Proof Architecture:** Implementation of NIST-standardized Post-Quantum Cryptography (ML-DSA) using a hybrid identity model.
+*   **Protocol Agnostic:** Designed to support discovery and verification for agents regardless of the specific communication protocol they implement.
+
 
 ## Getting Started
 
@@ -197,6 +199,7 @@ A summary of changes can be found in the [CHANGELOG.md](CHANGELOG.md) file.
 The ANS specification is an evolving standard. Key areas for future work include:
 
 * **SDK Update (v0.1.2 Support):** Release of updated SDKs (Java, JS, Python) compatible with the ANS v0.1.2 architecture and Agent Payments Protocol (AP2). *Note: Current SDKs are compatible with v0.1.1.*
+* **Quantum-Proof Architecture (PQC) Transition:** Strategic rollout of NIST ML-DSA signatures to ensure long-term resistance against quantum cryptanalysis.
 * Formalization through a recognized standards body.
 * Development of open-source reference implementations.
 * Establishment of a cross-industry governance model.

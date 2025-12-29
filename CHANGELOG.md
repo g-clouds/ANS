@@ -9,7 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Architecture
 
-## [0.1.2] - 2025-12-03
+## [0.1.3] - 2025-12-29
+
+### Added
+- **Quantum-Proof Architecture:** Introduced a comprehensive roadmap and technical specification for transitioning ANS to a Post-Quantum Cryptography (PQC) hybrid identity model.
+- **PQC Proof of Concept:** Added a functional PoC (`tests/pqc-poc`) demonstrating NIST ML-DSA-87 (Dilithium5) signature generation and verification.
+- **Documentation:**
+    - `docs/engineering-notes/pqc-migration-roadmap.md`: Strategic roadmap for 2026 PQC rollout.
+    - `docs/developer-guides/pqc-implementation-guide.md`: Developer guide for implementing hybrid keys.
+    - `docs/developer-guides/pqc-poc-validation.md`: Validation report for the PQC PoC.
+- **Specification Update:** Updated `docs/index.md` to include the Quantum-Proof Architecture section.
+
+## [0.1.2] - 2025-10-28
 
 ### Added
 
